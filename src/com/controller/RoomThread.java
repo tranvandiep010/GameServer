@@ -14,7 +14,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class RoomThread extends Thread {
 
     private String START_CODE = "";
-    private String END_GAME_CODE="";
+    private String END_GAME_CODE = "";
+    private String MOVE_CODE = "";
     private Room room;
     private int numOfPlayer;
     List<Socket> sockets = new ArrayList<>();
@@ -32,7 +33,8 @@ public class RoomThread extends Thread {
             p = new Properties();
             p.load(reader);
             START_CODE = p.getProperty("START_CODE");
-            END_GAME_CODE=p.getProperty("END_GAME_CODE");
+            END_GAME_CODE = p.getProperty("END_GAME_CODE");
+            MOVE_CODE = p.getProperty("MOVE_CODE");
         } catch (IOException e) {
             System.out.println(e.getMessage());
         } finally {
@@ -56,13 +58,30 @@ public class RoomThread extends Thread {
                 if (data.substring(0, 2).equals(START_CODE)) {
                     Player player = room.findPlayer(data.substring(2));
                     if (!player.isReady()) {
+                        try {
+                            for (Socket socket : sockets) {
+                                DataOutputStream outToClient = new DataOutputStream(socket.getOutputStream());
+                                outToClient.writeBytes(START_CODE + "|" + data.substring(2)+"\n");
+                            }
+                        } catch (IOException e) {
+                            System.out.println("RoomThread" + e.getMessage());
+                        }
                         player.setReady(true);
                         ready++;
                     }
-                }else if (data.substring(0, 2).equals(START_CODE)){
+                } else if (data.substring(0, 2).equals(END_GAME_CODE)) {
                     Player player = room.findPlayer(data.substring(2));
                     player.setReady(false);
                     ready--;
+                } else if (data.substring(0, 2).equals(MOVE_CODE)) {
+                    try {
+                        for (Socket socket : sockets) {
+                            DataOutputStream outToClient = new DataOutputStream(socket.getOutputStream());
+                            outToClient.writeBytes(data+"\n");
+                        }
+                    } catch (IOException e) {
+                        System.out.println("RoomThread" + e.getMessage());
+                    }
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -88,13 +107,9 @@ public class RoomThread extends Thread {
     private void startGame() {
         active = true;
         try {
-            for (Socket socket : sockets) {
-                DataOutputStream outToClient = new DataOutputStream(socket.getOutputStream());
-                outToClient.writeBytes(START_CODE);
-            }
-        } catch (IOException e) {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
             e.printStackTrace();
-            active = false;
         }
     }
 

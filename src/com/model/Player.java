@@ -3,6 +3,7 @@ package com.model;
 public class Player {
     private String name;
     private boolean isReady=false;
+    private int position;
 
     public Player(String name) {
         this.name = name;
@@ -25,5 +26,13 @@ public class Player {
 
     public void setReady(boolean ready) {
         isReady = ready;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 }

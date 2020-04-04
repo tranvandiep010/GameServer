@@ -24,9 +24,9 @@ public class JoinRoom {
                 queue = roomThread.getQueue();
                 roomThread.addPlayer(socket, player);
                 room = roomThread;
-                outputStream.writeBytes("051");
+                outputStream.writeBytes("JOIN_ROOM|1\n");
             } else {
-                outputStream.writeBytes("050");
+                outputStream.writeBytes("JOIN_ROOM|0\n");
             }
         } catch (IOException e) {
             e.printStackTrace();

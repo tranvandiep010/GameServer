@@ -13,13 +13,12 @@ public class SalveThread extends Thread {
     private int flag = 1;
 
     private Socket socket;
-    BlockingQueue<String> queue=null;
-    Player player=new Player();
-    MessageService service=new MessageService(player);
+    Player player = new Player();
+    MessageService service = null;
 
-    public SalveThread(Socket socket, BlockingQueue<String> queue) {
-        this.queue=queue;
+    public SalveThread(Socket socket) {
         this.socket = socket;
+        service = new MessageService(player,socket);
     }
 
     @Override
@@ -32,15 +31,15 @@ public class SalveThread extends Thread {
                 bufferedReader = new BufferedReader(inputStreamReader);
                 String content = bufferedReader.readLine();
                 if (content != null) {
-                    queue.put(content);
-                    Thread.sleep(20);
+                    Thread.sleep(10);
+                    service.handle(content);
                 }
 
             }
         } catch (IOException | InterruptedException e) {
             System.out.println(e.getLocalizedMessage());
         } finally {
-            if(bufferedReader != null) {
+            if (bufferedReader != null) {
                 try {
                     bufferedReader.close();
                 } catch (IOException e) {
@@ -48,7 +47,7 @@ public class SalveThread extends Thread {
                 }
             }
 
-            if(inputStreamReader != null) {
+            if (inputStreamReader != null) {
                 try {
                     inputStreamReader.close();
                 } catch (IOException e) {
@@ -56,7 +55,7 @@ public class SalveThread extends Thread {
                 }
             }
 
-            if(socket != null) {
+            if (socket != null) {
                 try {
                     socket.close();
 

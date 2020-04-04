@@ -21,8 +21,10 @@ public class MessageService {
     BlockingQueue<String> queue = null;
     Player player = null;
     RoomThread roomThread = null;
+    Socket socket = null;
 
-    public MessageService(Player player) {
+    public MessageService(Player player, Socket socket) {
+        this.socket = socket;
         this.player = player;
         FileReader reader = null;
         Properties p = null;
@@ -47,9 +49,9 @@ public class MessageService {
         }
     }
 
-    public void handle(Socket socket, String message) {
-        String CODE = message.substring(0, 2);
-        String DATA = message.substring(2);
+    public void handle(String message) {
+        String CODE = message.substring(0, message.indexOf('|'));
+        String DATA = message.substring(message.indexOf('|')+1);
         try {
             if (CODE.equals(LOGIN_CODE)) {
                 Login login = Login.getInstance();
@@ -58,8 +60,8 @@ public class MessageService {
                 JoinRoom joinRoom = new JoinRoom();
                 joinRoom.execute(socket, DATA, queue, player, roomThread);
             } else if (CODE.equals(MOVE_CODE)) {
-                Move move = new Move();
-                move.execute(socket, DATA);
+                String[] position = DATA.split("|");
+                queue.put(MOVE_CODE + "|" + position + "|" + player.getName());
             } else if (CODE.equals(START_CODE)) {
                 queue.put(START_CODE + player.getName());
             } else if (CODE.equals(END_GAME_CODE)) {
