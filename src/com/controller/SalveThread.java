@@ -1,21 +1,23 @@
 package com.controller;
 
-import com.service.Factory;
+import com.model.Player;
+import com.service.MessageService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.LinkedList;
 import java.util.concurrent.BlockingQueue;
 
-public class TCPThread extends Thread {
+public class SalveThread extends Thread {
     private int flag = 1;
 
     private Socket socket;
     BlockingQueue<String> queue=null;
+    Player player=new Player();
+    MessageService service=new MessageService(player);
 
-    public TCPThread(Socket socket,BlockingQueue<String> queue) {
+    public SalveThread(Socket socket, BlockingQueue<String> queue) {
         this.queue=queue;
         this.socket = socket;
     }

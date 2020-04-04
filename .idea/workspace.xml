@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c29479c5-a7f0-4fec-a744-d0721142d35a" name="Default Changelist" comment="" />
+    <list default="true" id="c29479c5-a7f0-4fec-a744-d0721142d35a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/service/JoinRoom.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/service/Login.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/service/MessageService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/service/Move.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/config/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/controller/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/RoomThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/controller/RoomThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/TCPThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/controller/SalveThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/UDPThread.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/model/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/model/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/model/Room.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/service/Factory.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,7 +29,11 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1ZWs3rdqD9XkJE9k3Oo4L4W6Fy5" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -22,8 +41,10 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunManager" selected="Application.Server">
     <configuration name="Server" type="Application" factoryName="Application">
@@ -76,6 +97,10 @@
       <workItem from="1585582829046" duration="161000" />
       <workItem from="1585622781868" duration="1810000" />
       <workItem from="1585624777498" duration="66000" />
+      <workItem from="1585624868065" duration="3959000" />
+      <workItem from="1585909764390" duration="42000" />
+      <workItem from="1585917339688" duration="633000" />
+      <workItem from="1585997985348" duration="13567000" />
     </task>
     <servers />
   </component>
@@ -87,14 +112,22 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="133" y="34" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1585557655764" />
-    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser" timestamp="1585576883755">
+    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser" timestamp="1586016508744">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1585576883755" />
+    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1586016508744" />
     <state x="412" y="148" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1585557653561">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="412" y="148" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1366.728@0.0.1366.728" timestamp="1585557653561" />
+    <state x="357" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1586006137411">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="357" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1366.728@0.0.1366.728" timestamp="1586006137411" />
+    <state x="413" y="111" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1586015846596">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="413" y="111" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1366.728@0.0.1366.728" timestamp="1586015846596" />
     <state width="1323" height="179" key="GridCell.Tab.0.bottom" timestamp="1585558538526">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

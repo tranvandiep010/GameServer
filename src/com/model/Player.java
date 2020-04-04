@@ -1,29 +1,14 @@
 package com.model;
 
 public class Player {
-    private int id;
     private String name;
-    private String ipAddress;
-    private String port;
+    private boolean isReady=false;
 
-    public Player(int id, String name) {
-        this.id = id;
+    public Player(String name) {
         this.name = name;
     }
 
-    public Player(int id, String name, String ipAddress, String port) {
-        this.id = id;
-        this.name = name;
-        this.ipAddress = ipAddress;
-        this.port = port;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public Player() {
     }
 
     public String getName() {
@@ -34,21 +19,11 @@ public class Player {
         this.name = name;
     }
 
-    public String getIpAddress() {
-        return ipAddress;
+    public boolean isReady() {
+        return isReady;
     }
 
-    public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
+    public void setReady(boolean ready) {
+        isReady = ready;
     }
-
-    public String getPort() {
-        return port;
-    }
-
-    public void setPort(String port) {
-        this.port = port;
-    }
-
-
 }

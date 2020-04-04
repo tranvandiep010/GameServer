@@ -1,42 +1,29 @@
 package com.controller;
 
-import com.model.Room;
-
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 import java.util.logging.Level;
 
 public class Main {
 
-    public static Map<String, TCPThread> users = new HashMap<String, TCPThread>();
-    static int numOfThread;
     static int serverPort;
+    String NUM_OF_ROOM = "";
+    String NUM_OF_LEVEL = "";
     public static int flag = 1;
-    public static final String GROUP_ADDRESS = "224.0.0.1";
-    public static final int PORT = 8888;
-    private static DatagramSocket broadSocket;
-    private static InetAddress address;
+    private static Map<Integer, RoomThread> roomMap = new HashMap<>();
 
-    private static DatagramPacket outPacket = null;
-
-    public Main() throws SocketException, UnknownHostException {
-        address = InetAddress.getByName(GROUP_ADDRESS);
-        broadSocket=new DatagramSocket();
-    }
-
-    public static void main(String[] args) {
-
+    public Main() {
         FileReader reader = null;
         Properties p = null;
         try {
             reader = new FileReader("config/application.properties");
             p = new Properties();
             p.load(reader);
-            numOfThread = Integer.parseInt(p.getProperty("NUM_OF_THREAD"));
             serverPort = Integer.parseInt(p.getProperty("SERVER_PORT"));
+            NUM_OF_ROOM = p.getProperty("NUM_OF_ROOM");
+            NUM_OF_LEVEL = p.getProperty("NUM_OF_LEVEL");
         } catch (IOException e) {
             System.out.println(e.getMessage());
         } finally {
@@ -48,16 +35,17 @@ public class Main {
                 }
             }
         }
+        //create room
+        for (int i = 0; i < Integer.parseInt(NUM_OF_ROOM); ++i) {
+            for (int level = 1; level < Integer.parseInt(NUM_OF_LEVEL); ++level) {
+                roomMap.put(i*Integer.parseInt(NUM_OF_LEVEL)+level,new RoomThread(i*Integer.parseInt(NUM_OF_LEVEL)+level));
+            }
+        }
+    }
 
-        // create NUM_OF_THREAD thread pool
-        ExecutorService executorLogin = Executors.newFixedThreadPool(numOfThread);
-        ExecutorService executorRoom = Executors.newFixedThreadPool(numOfThread);
+    public static void main(String[] args) {
+
         ServerSocket serverSocket = null;
-        DatagramSocket datagramSocket = null;
-        List<String> names = new ArrayList<>();
-        int idRoom=1;
-        Room room=new Room();
-        RoomThread roomThread=new RoomThread(idRoom++);
         try {
             System.out.println(Level.INFO + "Binding to port: {0}" + serverPort);
             // create server socket with port = SERVER_PORT
@@ -68,25 +56,9 @@ public class Main {
             while (flag == 1) {
                 try {
                     Socket socket = serverSocket.accept();
-                    DataOutputStream resp = new DataOutputStream(socket.getOutputStream());
-                    // get message
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                    String message = bufferedReader.readLine();
-
-                    //add player to list
-                    if (!names.contains(message)) {
-                        names.add(message);
-                        roomThread.addPlayer(socket,message);
-                        if (roomThread.getNumOfPlayer()==1){
-                            executorRoom.execute(roomThread);
-                        }else if (roomThread.getNumOfPlayer()==4){
-                            roomThread=new RoomThread(idRoom++);
-                        }
-                        //response success
-                        resp.writeBytes("1");
-                    }
-                    else resp.writeBytes("0");//response fail
-
+                    BlockingQueue<String> queue=new LinkedBlockingDeque<>();
+                    SalveThread salveThread =new SalveThread(socket,queue);
+                    salveThread.start();
                 } catch (IOException e) {
                     System.out.println(e.getMessage());
                 }
@@ -102,17 +74,14 @@ public class Main {
                     System.out.println(e.getMessage());
                 }
             }
-            if (broadSocket!=null){
-                broadSocket.close();
-            }
         }
     }
-    public static void sendBroadCast(String msg){
-        outPacket = new DatagramPacket(msg.getBytes(), msg.getBytes().length, address, PORT);
-        try {
-            broadSocket.send(outPacket);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+    public static Map<Integer, RoomThread> getRoomMap() {
+        return roomMap;
+    }
+
+    public static void setRoomMap(Map<Integer, RoomThread> roomMap) {
+        Main.roomMap = roomMap;
     }
 }

@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Room {
-    public final static int MAX_PEOPLE=4;
+    public final static int MAX_PEOPLE = 4;
     private int id;
-    private List<Player> players=new ArrayList<>();
+    private List<Player> players = new ArrayList<>();
+    private boolean isActive = false;
 
     public int getId() {
         return id;
@@ -16,7 +17,7 @@ public class Room {
         this.id = id;
     }
 
-    public void addPlayer(Player player){
+    public void addPlayer(Player player) {
         players.add(player);
     }
 
@@ -26,5 +27,18 @@ public class Room {
 
     public void setPlayers(List<Player> players) {
         this.players = players;
+    }
+
+    public Player findPlayer(String name){
+        for (Player player:players) if (player.getName().equals(name)) return player;
+        return null;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }
