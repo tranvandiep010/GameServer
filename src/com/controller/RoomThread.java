@@ -55,13 +55,15 @@ public class RoomThread extends Thread {
         while (flag == 1) {
             try {
                 String data = queue.take();
-                if (data.substring(0, 2).equals(START_CODE)) {
-                    Player player = room.findPlayer(data.substring(2));
+                String CODE = data.substring(0, data.indexOf('|'));
+                String DATA = data.substring(data.indexOf('|')+1);
+                if (CODE.equals(START_CODE)) {
+                    Player player = room.findPlayer(data.substring(data.indexOf('|')+1));
                     if (!player.isReady()) {
                         try {
                             for (Socket socket : sockets) {
                                 DataOutputStream outToClient = new DataOutputStream(socket.getOutputStream());
-                                outToClient.writeBytes(START_CODE + "|" + data.substring(2)+"\n");
+                                outToClient.writeBytes(START_CODE + "|" + DATA+"\n");
                             }
                         } catch (IOException e) {
                             System.out.println("RoomThread" + e.getMessage());
@@ -69,11 +71,11 @@ public class RoomThread extends Thread {
                         player.setReady(true);
                         ready++;
                     }
-                } else if (data.substring(0, 2).equals(END_GAME_CODE)) {
-                    Player player = room.findPlayer(data.substring(2));
+                } else if (CODE.equals(END_GAME_CODE)) {
+                    Player player = room.findPlayer(DATA);
                     player.setReady(false);
                     ready--;
-                } else if (data.substring(0, 2).equals(MOVE_CODE)) {
+                } else if (CODE.equals(MOVE_CODE)) {
                     try {
                         for (Socket socket : sockets) {
                             DataOutputStream outToClient = new DataOutputStream(socket.getOutputStream());

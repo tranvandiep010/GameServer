@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class MessageService {
     String LOGIN_CODE = "";
@@ -18,7 +19,7 @@ public class MessageService {
     String MOVE_CODE = "";
     String START_CODE = "";
     String END_GAME_CODE = "";
-    BlockingQueue<String> queue = null;
+    BlockingQueue<String> queue = new LinkedBlockingDeque<>(10);
     Player player = null;
     RoomThread roomThread = null;
     Socket socket = null;
@@ -58,10 +59,9 @@ public class MessageService {
                 login.execute(socket, DATA, player);
             } else if (CODE.equals(JOIN_ROOM_CODE)) {
                 JoinRoom joinRoom = new JoinRoom();
-                joinRoom.execute(socket, DATA, queue, player, roomThread);
+                roomThread=joinRoom.execute(socket, DATA, queue, player);
             } else if (CODE.equals(MOVE_CODE)) {
-                String[] position = DATA.split("|");
-                queue.put(MOVE_CODE + "|" + position + "|" + player.getName());
+                queue.put(MOVE_CODE + "|" + DATA + "|" + player.getName());
             } else if (CODE.equals(START_CODE)) {
                 queue.put(START_CODE + player.getName());
             } else if (CODE.equals(END_GAME_CODE)) {

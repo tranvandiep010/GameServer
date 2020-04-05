@@ -14,22 +14,27 @@ import java.util.concurrent.BlockingQueue;
 
 public class JoinRoom {
 
-    public void execute(Socket socket, String data, BlockingQueue<String> queue, Player player, RoomThread room) {
+    public RoomThread execute(Socket socket, String data, BlockingQueue<String> queue, Player player) {
+        RoomThread roomThread=null;
         try {
             DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
             Map<Integer, RoomThread> roomThreadMap = Main.getRoomMap();
-            RoomThread roomThread = roomThreadMap.get(Integer.parseInt(data));
+            roomThread = roomThreadMap.get(Integer.parseInt(data));
             if (roomThread.getRoom().getPlayers().size() < Room.MAX_PEOPLE) {
-                if (!roomThread.isAlive()) roomThread.start();
-                queue = roomThread.getQueue();
+                if (!roomThread.isAlive()) {
+                    roomThread.setQueue(queue);
+                    roomThread.start();
+                }
                 roomThread.addPlayer(socket, player);
-                room = roomThread;
                 outputStream.writeBytes("JOIN_ROOM|1\n");
             } else {
                 outputStream.writeBytes("JOIN_ROOM|0\n");
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        finally {
+            return roomThread;
         }
     }
 }
