@@ -42,7 +42,7 @@ public class tcpclient extends Thread{
             BufferedReader inFromServer2 = new BufferedReader(
                     new InputStreamReader(clientSocket.getInputStream()));
             System.out.print("join_room: ");
-            sentence = "JOIN_ROOM|"+id;
+            sentence = "JOIN_ROOM|"+9;
             outToServer2.writeBytes(sentence + '\n');
             modifiedSentence = inFromServer2.readLine();
             System.out.println("Received from server: " + modifiedSentence);

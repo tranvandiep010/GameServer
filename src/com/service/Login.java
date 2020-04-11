@@ -3,14 +3,13 @@ package com.service;
 import com.controller.Main;
 import com.controller.RoomThread;
 import com.model.Player;
+import com.model.Room;
 
 import java.io.DataOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.Socket;
 import java.util.*;
-import java.util.concurrent.BlockingQueue;
 
 public class Login {
 
@@ -46,9 +45,10 @@ public class Login {
         int k = 0;
         for (Integer entry : roomMap.keySet()) {
             if (entry % Integer.parseInt(NUM_OF_ROOM) == 0) {
-                room += ((entry / Integer.parseInt(NUM_OF_ROOM)-1) + "|" + ++k + "|");
+                if (roomMap.get(entry).numOfPlayer!= Room.MAX_PEOPLE) k++;
+                room += ((entry / Integer.parseInt(NUM_OF_ROOM) - 1) + "|" + k + "|");
                 k = 0;
-            } else k++;
+            } else if (roomMap.get(entry).numOfPlayer!=Room.MAX_PEOPLE) k++;
         }
         room = room.substring(0, room.length() - 1);
     }

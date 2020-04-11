@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Room {
-    public final static int MAX_PEOPLE = 4;
+    public final static int MAX_PEOPLE = 3;
     private int id;
     private List<Player> players = new ArrayList<>();
     private boolean isActive = false;

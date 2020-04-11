@@ -20,7 +20,7 @@ public class JoinRoom {
             DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
             Map<Integer, RoomThread> roomThreadMap = Main.getRoomMap();
             roomThread = roomThreadMap.get(Integer.parseInt(data));
-            if (roomThread.getRoom().getPlayers().size() < Room.MAX_PEOPLE) {
+            if (roomThread.numOfPlayer< Room.MAX_PEOPLE) {
                 if (!roomThread.isAlive()) {
                     roomThread.setQueue(queue);
                     roomThread.start();
