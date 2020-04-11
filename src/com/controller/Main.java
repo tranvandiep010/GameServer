@@ -27,8 +27,8 @@ public class Main {
             while (flag == 1) {
                 try {
                     Socket socket = serverSocket.accept();
-                    System.out.println("Client"+socket.getPort());
-                    SalveThread salveThread =new SalveThread(socket);
+                    System.out.println("Client" + socket.getPort());
+                    SalveThread salveThread = new SalveThread(socket);
                     salveThread.start();
                 } catch (IOException e) {
                     System.out.println(e.getMessage());
@@ -56,7 +56,7 @@ public class Main {
         Main.roomMap = roomMap;
     }
 
-    private static void setup(){
+    private static void setup() {
         FileReader reader = null;
         Properties p = null;
         try {
@@ -78,9 +78,9 @@ public class Main {
             }
         }
         //create room
-        for (int i = 0; i < Integer.parseInt(NUM_OF_ROOM); ++i) {
-            for (int level = 1; level <= Integer.parseInt(NUM_OF_LEVEL); ++level) {
-                roomMap.put(i*Integer.parseInt(NUM_OF_LEVEL)+level,new RoomThread(i*Integer.parseInt(NUM_OF_LEVEL)+level));
+        for (int level = 1; level <= Integer.parseInt(NUM_OF_LEVEL); ++level) {
+            for (int room = 1; room <= Integer.parseInt(NUM_OF_ROOM); ++room) {
+                roomMap.put(level * Integer.parseInt(NUM_OF_ROOM) + room, new RoomThread(level * Integer.parseInt(NUM_OF_ROOM) + room));
             }
         }
     }

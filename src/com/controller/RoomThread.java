@@ -20,7 +20,7 @@ public class RoomThread extends Thread {
     private int numOfPlayer;
     List<Socket> sockets = new ArrayList<>();
     private int flag = 1;
-    private boolean active = false;
+    public static boolean active = false;
     private BlockingQueue<String> queue = new LinkedBlockingQueue<>(10);
 
     private int ready = 0;
