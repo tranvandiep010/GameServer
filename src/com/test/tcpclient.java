@@ -44,14 +44,16 @@ public class tcpclient extends Thread{
             outToServer.writeBytes(sentence + '\n');
             //move
             this.sleep(50);
-            new Demo(clientSocket,id).start();
+            modifiedSentence = inFromServer.readLine();
+            System.out.println("Received from server " + id + ":" + modifiedSentence);
+            modifiedSentence = inFromServer.readLine();
+            System.out.println("Received from server " + id + ":" + modifiedSentence);
 //            while (true) {
 //                this.sleep(100);
 //                sentence = "MOVE|1|1|1"+id;
 //                if (sentence.equals("0")) break;
 //                outToServer.writeBytes(sentence + '\n');
 //            }
-            this.sleep(4000);
             outToServer.writeBytes("QUIT" + '\n');
             clientSocket.close();
         } catch (Exception e) {

@@ -21,11 +21,12 @@ public class RoomThread extends Thread {
     List<Socket> sockets = new ArrayList<>();
     private int flag = 1;
     private boolean AC = false;
-    private BlockingQueue<String> queue = new LinkedBlockingQueue<>(20);
+    private BlockingQueue<String> queue = null;
 
     private int ready = 0;
 
-    public RoomThread(int id) {
+    public RoomThread(int id,BlockingQueue<String> queue) {
+        this.queue=queue;
         FileReader reader = null;
         Properties p = null;
         try {
@@ -100,6 +101,7 @@ public class RoomThread extends Thread {
 
     private void broadcast(String data){
         try {
+            System.out.println("Test"+data);
             for (Socket socket : sockets) {
                 DataOutputStream outToClient = new DataOutputStream(socket.getOutputStream());
                 outToClient.writeBytes(data);

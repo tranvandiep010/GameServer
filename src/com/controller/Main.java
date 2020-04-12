@@ -8,10 +8,7 @@ import java.util.logging.Level;
 public class Main {
 
     static int serverPort;
-    static String NUM_OF_ROOM = "";
-    static String NUM_OF_LEVEL = "";
     public static int flag = 1;
-    private static Map<Integer, RoomThread> roomMap = new HashMap<>();
 
     public static void main(String[] args) {
         setup();
@@ -47,13 +44,6 @@ public class Main {
         }
     }
 
-    public static Map<Integer, RoomThread> getRoomMap() {
-        return roomMap;
-    }
-
-    public static void setRoomMap(Map<Integer, RoomThread> roomMap) {
-        Main.roomMap = roomMap;
-    }
 
     private static void setup() {
         FileReader reader = null;
@@ -63,8 +53,6 @@ public class Main {
             p = new Properties();
             p.load(reader);
             serverPort = Integer.parseInt(p.getProperty("SERVER_PORT"));
-            NUM_OF_ROOM = p.getProperty("NUM_OF_ROOM");
-            NUM_OF_LEVEL = p.getProperty("NUM_OF_LEVEL");
         } catch (IOException e) {
             System.out.println(e.getMessage());
         } finally {
@@ -74,12 +62,6 @@ public class Main {
                 } catch (IOException e) {
                     System.out.println(e.getMessage());
                 }
-            }
-        }
-        //create room
-        for (int level = 1; level <= Integer.parseInt(NUM_OF_LEVEL); ++level) {
-            for (int room = 1; room <= Integer.parseInt(NUM_OF_ROOM); ++room) {
-                roomMap.put(level * Integer.parseInt(NUM_OF_ROOM) + room, new RoomThread(level * Integer.parseInt(NUM_OF_ROOM) + room));
             }
         }
     }

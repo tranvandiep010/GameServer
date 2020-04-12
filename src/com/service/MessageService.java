@@ -20,7 +20,6 @@ public class MessageService {
     String QUIT_CODE = "";
     BlockingQueue<String> queue = new LinkedBlockingDeque<>(20);
     Player player = null;
-    RoomThread roomThread = null;
     Socket socket = null;
 
     public MessageService(Player player, Socket socket) {
@@ -65,19 +64,10 @@ public class MessageService {
                 Login login = Login.getInstance();
                 login.quit(player);
             } else if (CODE.equals(JOIN_ROOM_CODE)) {
-                JoinRoom joinRoom = new JoinRoom();
-                roomThread = joinRoom.execute(socket, DATA, queue, player);
-                Thread.sleep(50);
+                queue = JoinRoom.getInstance().execute(socket, DATA, player);
             } else if (CODE.equals(MOVE_CODE)) {
-//                DataOutputStream outToClient = null;
-//                try {
-//                    outToClient = new DataOutputStream(socket.getOutputStream());
-//                    outToClient.writeBytes(MOVE_CODE + "|" + DATA + "|" + player.getName()+"\n");
-//                    Thread.sleep(50);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
                 queue.put(MOVE_CODE + "|" + DATA + "|" + player.getName());
+                System.out.println("QUEUE"+queue.size());
             } else if (CODE.equals(START_CODE)) {
                 queue.put(START_CODE + player.getName());
             } else if (CODE.equals(END_GAME_CODE)) {
