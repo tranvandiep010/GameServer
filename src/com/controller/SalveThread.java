@@ -31,7 +31,7 @@ public class SalveThread extends Thread {
                 String content = bufferedReader.readLine();
                 if (content != null) {
                     service.handle(content);
-                    this.sleep(30);
+                    this.sleep(20);
                 }
             }
         } catch (IOException | InterruptedException e) {

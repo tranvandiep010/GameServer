@@ -61,13 +61,13 @@ public class MessageService {
                 Login login = Login.getInstance();
                 login.execute(socket, DATA, player);
             } else if (CODE.equals(QUIT_CODE)) {
+                JoinRoom.getInstance().removePlayer(queue,player);
                 Login login = Login.getInstance();
                 login.quit(player);
             } else if (CODE.equals(JOIN_ROOM_CODE)) {
                 queue = JoinRoom.getInstance().execute(socket, DATA, player);
             } else if (CODE.equals(MOVE_CODE)) {
                 queue.put(MOVE_CODE + "|" + DATA + "|" + player.getName());
-                System.out.println("QUEUE"+queue.size());
             } else if (CODE.equals(START_CODE)) {
                 queue.put(START_CODE + player.getName());
             } else if (CODE.equals(END_GAME_CODE)) {

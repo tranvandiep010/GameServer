@@ -20,41 +20,60 @@ public class JoinRoom {
     static String NUM_OF_ROOM = "";
     static String NUM_OF_LEVEL = "";
     private static Map<Integer, RoomThread> roomMap = new HashMap<>();
-    private static Map<Integer, BlockingQueue<String>> listQueue=new HashMap<>();
+    private static Map<Integer, BlockingQueue<String>> listQueue = new HashMap<>();
+    int[] a;
 
-    private static JoinRoom joinRoom=null;
+    private static JoinRoom joinRoom = null;
+
     private JoinRoom() {
         setup();
     }
 
-    public static JoinRoom getInstance(){
-        if (joinRoom==null) joinRoom=new JoinRoom();
+    public static JoinRoom getInstance() {
+        if (joinRoom == null) joinRoom = new JoinRoom();
         return joinRoom;
     }
 
     public BlockingQueue<String> execute(Socket socket, String data, Player player) {
-        RoomThread room=null;
+        RoomThread room = null;
         try {
             DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
             room = roomMap.get(Integer.parseInt(data));
             System.out.println("JOIN ROOM");
-            if (room.numOfPlayer< Room.MAX_PEOPLE) {
+            if (a[Integer.parseInt(data)] < Room.MAX_PEOPLE) {
                 if (!room.isAlive()) {
                     room.start();
                 }
                 room.addPlayer(socket, player);
+                a[Integer.parseInt(data)]++;
                 outputStream.writeBytes("JOIN_ROOM|1\n");
             } else {
                 outputStream.writeBytes("JOIN_ROOM|0\n");
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             return listQueue.get(Integer.parseInt(data));
         }
     }
-    private static void setup() {
+
+    public void removePlayer(BlockingQueue<String> queue, Player player) {
+        int index = (Integer) getKeyFromValue(listQueue, queue);
+        roomMap.get(index).removePlayer(player);
+        a[index]--;
+        if (a[index]==0) roomMap.get(index).STOP();
+    }
+
+    public static Object getKeyFromValue(Map hm, Object value) {
+        for (Object o : hm.keySet()) {
+            if (hm.get(o).equals(value)) {
+                return o;
+            }
+        }
+        return null;
+    }
+
+    private void setup() {
         FileReader reader = null;
         Properties p = null;
         try {
@@ -77,10 +96,11 @@ public class JoinRoom {
         //create room
         for (int level = 1; level <= Integer.parseInt(NUM_OF_LEVEL); ++level) {
             for (int room = 1; room <= Integer.parseInt(NUM_OF_ROOM); ++room) {
-                BlockingQueue<String> queue=new LinkedBlockingDeque<>(20);
-                roomMap.put(level * Integer.parseInt(NUM_OF_ROOM) + room, new RoomThread(level * Integer.parseInt(NUM_OF_ROOM) + room,queue));
+                BlockingQueue<String> queue = new LinkedBlockingDeque<>(20);
+                roomMap.put(level * Integer.parseInt(NUM_OF_ROOM) + room, new RoomThread(level * Integer.parseInt(NUM_OF_ROOM) + room, queue));
                 listQueue.put(level * Integer.parseInt(NUM_OF_ROOM) + room, queue);
             }
         }
+        a = new int[roomMap.size()];
     }
 }

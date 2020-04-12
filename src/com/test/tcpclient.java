@@ -40,20 +40,12 @@ public class tcpclient extends Thread{
             outToServer.writeBytes(sentence + '\n');
             modifiedSentence = inFromServer.readLine();
             System.out.println("Received from server join room: " + modifiedSentence);
-            sentence = "MOVE|1|1|1"+id;
+            sentence = "MOVE|1|1|1";
             outToServer.writeBytes(sentence + '\n');
             //move
             this.sleep(50);
             modifiedSentence = inFromServer.readLine();
             System.out.println("Received from server " + id + ":" + modifiedSentence);
-            modifiedSentence = inFromServer.readLine();
-            System.out.println("Received from server " + id + ":" + modifiedSentence);
-//            while (true) {
-//                this.sleep(100);
-//                sentence = "MOVE|1|1|1"+id;
-//                if (sentence.equals("0")) break;
-//                outToServer.writeBytes(sentence + '\n');
-//            }
             outToServer.writeBytes("QUIT" + '\n');
             clientSocket.close();
         } catch (Exception e) {

@@ -17,7 +17,7 @@ public class RoomThread extends Thread {
     private String END_GAME_CODE = "";
     private String MOVE_CODE = "";
     private Room room;
-    public static int numOfPlayer = 0;
+    private int numOfPlayer = 0;
     List<Socket> sockets = new ArrayList<>();
     private int flag = 1;
     private boolean AC = false;
@@ -25,8 +25,8 @@ public class RoomThread extends Thread {
 
     private int ready = 0;
 
-    public RoomThread(int id,BlockingQueue<String> queue) {
-        this.queue=queue;
+    public RoomThread(int id, BlockingQueue<String> queue) {
+        this.queue = queue;
         FileReader reader = null;
         Properties p = null;
         try {
@@ -86,6 +86,14 @@ public class RoomThread extends Thread {
         sockets.add(socket);
     }
 
+    public void removePlayer(Player player) {
+        numOfPlayer--;
+        sockets.remove(room.getPlayers().indexOf(player));
+        List<Player> players = room.getPlayers();
+        players.remove(player);
+        room.setPlayers(players);
+    }
+
     public int getNumOfPlayer() {
         return numOfPlayer;
     }
@@ -99,9 +107,8 @@ public class RoomThread extends Thread {
         }
     }
 
-    private void broadcast(String data){
+    private void broadcast(String data) {
         try {
-            System.out.println("Test"+data);
             for (Socket socket : sockets) {
                 DataOutputStream outToClient = new DataOutputStream(socket.getOutputStream());
                 outToClient.writeBytes(data);
@@ -109,6 +116,10 @@ public class RoomThread extends Thread {
         } catch (IOException e) {
             System.out.println("RoomThread" + e.getMessage());
         }
+    }
+
+    public void STOP() {
+        this.flag = 0;
     }
 
     private void endGame() {
