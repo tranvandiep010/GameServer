@@ -7,7 +7,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.concurrent.BlockingQueue;
 
 public class SalveThread extends Thread {
     private int flag = 1;
@@ -31,10 +30,9 @@ public class SalveThread extends Thread {
                 bufferedReader = new BufferedReader(inputStreamReader);
                 String content = bufferedReader.readLine();
                 if (content != null) {
-                    Thread.sleep(10);
+                    Thread.sleep(50);
                     service.handle(content);
                 }
-
             }
         } catch (IOException | InterruptedException e) {
             System.out.println(e.getLocalizedMessage());
@@ -44,6 +42,7 @@ public class SalveThread extends Thread {
                     bufferedReader.close();
                 } catch (IOException e) {
                     System.out.println(e.getLocalizedMessage());
+                    System.out.println("Slave buffer reader close");
                 }
             }
 
@@ -52,17 +51,20 @@ public class SalveThread extends Thread {
                     inputStreamReader.close();
                 } catch (IOException e) {
                     System.out.println(e.getLocalizedMessage());
+                    System.out.println("Slave input streamm reader close");
                 }
             }
 
             if (socket != null) {
                 try {
                     socket.close();
-
                 } catch (IOException e) {
                     System.out.println(e.getLocalizedMessage());
+                    System.out.println("Slave socket close");
                 }
             }
+            service.handle("QUIT");
+            flag=0;
         }
     }
 

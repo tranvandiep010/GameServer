@@ -19,6 +19,7 @@ public class MessageService {
     String MOVE_CODE = "";
     String START_CODE = "";
     String END_GAME_CODE = "";
+    String QUIT_CODE = "";
     BlockingQueue<String> queue = new LinkedBlockingDeque<>(10);
     Player player = null;
     RoomThread roomThread = null;
@@ -37,6 +38,7 @@ public class MessageService {
             JOIN_ROOM_CODE = p.getProperty("JOIN_ROOM_CODE");
             MOVE_CODE = p.getProperty("MOVE_CODE");
             END_GAME_CODE = p.getProperty("END_GAME_CODE");
+            QUIT_CODE = p.getProperty("QUIT_CODE");
         } catch (IOException e) {
             System.out.println("Homecontroller: " + e.getMessage());
         } finally {
@@ -51,15 +53,22 @@ public class MessageService {
     }
 
     public void handle(String message) {
-        String CODE = message.substring(0, message.indexOf('|'));
-        String DATA = message.substring(message.indexOf('|')+1);
+        String CODE = "";
+        String DATA = "";
+        if (message.indexOf('|') != -1) {
+            CODE = message.substring(0, message.indexOf('|'));
+            DATA = message.substring(message.indexOf('|') + 1);
+        } else CODE = message;
         try {
             if (CODE.equals(LOGIN_CODE)) {
                 Login login = Login.getInstance();
                 login.execute(socket, DATA, player);
+            } else if (CODE.equals(QUIT_CODE)) {
+                Login login = Login.getInstance();
+                login.quit(player);
             } else if (CODE.equals(JOIN_ROOM_CODE)) {
                 JoinRoom joinRoom = new JoinRoom();
-                roomThread=joinRoom.execute(socket, DATA, queue, player);
+                roomThread = joinRoom.execute(socket, DATA, queue, player);
             } else if (CODE.equals(MOVE_CODE)) {
                 queue.put(MOVE_CODE + "|" + DATA + "|" + player.getName());
             } else if (CODE.equals(START_CODE)) {

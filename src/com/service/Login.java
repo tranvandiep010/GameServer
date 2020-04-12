@@ -72,4 +72,8 @@ public class Login {
             e.printStackTrace();
         }
     }
+    public void quit(Player player){
+        users.remove(player.getName());
+        System.out.println("QUIT GAME"+player.getName());
+    }
 }

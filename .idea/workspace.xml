@@ -3,10 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="c29479c5-a7f0-4fec-a744-d0721142d35a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/controller/RoomThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/controller/RoomThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/model/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/model/Room.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/config/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/controller/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/SalveThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/controller/SalveThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/service/JoinRoom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/service/JoinRoom.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/service/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/service/Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/service/MessageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/service/MessageService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/test/tcpclient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/test/tcpclient.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -95,6 +97,8 @@
       <workItem from="1585997985348" duration="21775000" />
       <workItem from="1586055901888" duration="6637000" />
       <workItem from="1586601578359" duration="5100000" />
+      <workItem from="1586612805119" duration="578000" />
+      <workItem from="1586669226485" duration="3207000" />
     </task>
     <servers />
   </component>
@@ -126,22 +130,22 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="643" y="128" key="#xdebugger.evaluate/0.0.1366.728@0.0.1366.728" timestamp="1586024882579" />
-    <state width="1323" height="223" key="GridCell.Tab.0.bottom" timestamp="1586607566784">
+    <state width="1323" height="227" key="GridCell.Tab.0.bottom" timestamp="1586672456190">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="223" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1586607566784" />
-    <state width="1323" height="223" key="GridCell.Tab.0.center" timestamp="1586607566784">
+    <state width="1323" height="227" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1586672456190" />
+    <state width="1323" height="227" key="GridCell.Tab.0.center" timestamp="1586672456190">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="223" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1586607566784" />
-    <state width="1323" height="223" key="GridCell.Tab.0.left" timestamp="1586607566784">
+    <state width="1323" height="227" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1586672456190" />
+    <state width="1323" height="227" key="GridCell.Tab.0.left" timestamp="1586672456190">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="223" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1586607566784" />
-    <state width="1323" height="223" key="GridCell.Tab.0.right" timestamp="1586607566784">
+    <state width="1323" height="227" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1586672456190" />
+    <state width="1323" height="227" key="GridCell.Tab.0.right" timestamp="1586672456190">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="223" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1586607566784" />
+    <state width="1323" height="227" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1586672456190" />
     <state width="1323" height="223" key="GridCell.Tab.1.bottom" timestamp="1586607566784">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
