@@ -2,13 +2,11 @@ package com.service;
 
 import com.controller.RoomThread;
 import com.model.Player;
-import com.model.Room;
 
+import java.io.DataOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -20,7 +18,7 @@ public class MessageService {
     String START_CODE = "";
     String END_GAME_CODE = "";
     String QUIT_CODE = "";
-    BlockingQueue<String> queue = new LinkedBlockingDeque<>(10);
+    BlockingQueue<String> queue = new LinkedBlockingDeque<>(20);
     Player player = null;
     RoomThread roomThread = null;
     Socket socket = null;
@@ -69,7 +67,16 @@ public class MessageService {
             } else if (CODE.equals(JOIN_ROOM_CODE)) {
                 JoinRoom joinRoom = new JoinRoom();
                 roomThread = joinRoom.execute(socket, DATA, queue, player);
+                Thread.sleep(50);
             } else if (CODE.equals(MOVE_CODE)) {
+//                DataOutputStream outToClient = null;
+//                try {
+//                    outToClient = new DataOutputStream(socket.getOutputStream());
+//                    outToClient.writeBytes(MOVE_CODE + "|" + DATA + "|" + player.getName()+"\n");
+//                    Thread.sleep(50);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
                 queue.put(MOVE_CODE + "|" + DATA + "|" + player.getName());
             } else if (CODE.equals(START_CODE)) {
                 queue.put(START_CODE + player.getName());

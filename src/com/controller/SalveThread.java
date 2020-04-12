@@ -30,11 +30,10 @@ public class SalveThread extends Thread {
                 bufferedReader = new BufferedReader(inputStreamReader);
                 String content = bufferedReader.readLine();
                 if (content != null) {
-                    Thread.sleep(50);
                     service.handle(content);
                 }
             }
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
             System.out.println(e.getLocalizedMessage());
         } finally {
             if (bufferedReader != null) {

@@ -21,7 +21,7 @@ public class RoomThread extends Thread {
     List<Socket> sockets = new ArrayList<>();
     private int flag = 1;
     private boolean AC = false;
-    private BlockingQueue<String> queue = new LinkedBlockingQueue<>(10);
+    private BlockingQueue<String> queue = new LinkedBlockingQueue<>(20);
 
     private int ready = 0;
 
@@ -60,14 +60,7 @@ public class RoomThread extends Thread {
                 if (CODE.equals(START_CODE)) {
                     Player player = room.findPlayer(data.substring(data.indexOf('|') + 1));
                     if (!player.isReady()) {
-                        try {
-                            for (Socket socket : sockets) {
-                                DataOutputStream outToClient = new DataOutputStream(socket.getOutputStream());
-                                outToClient.writeBytes(START_CODE + "|" + DATA + "\n");
-                            }
-                        } catch (IOException e) {
-                            System.out.println("RoomThread" + e.getMessage());
-                        }
+                        broadcast(START_CODE + "|" + DATA + "\n");
                         player.setReady(true);
                         ready++;
                     }
@@ -76,19 +69,12 @@ public class RoomThread extends Thread {
                     player.setReady(false);
                     ready--;
                 } else if (CODE.equals(MOVE_CODE)) {
-                    try {
-                        for (Socket socket : sockets) {
-                            DataOutputStream outToClient = new DataOutputStream(socket.getOutputStream());
-                            outToClient.writeBytes(data + "\n");
-                        }
-                    } catch (IOException e) {
-                        System.out.println("RoomThread" + e.getMessage());
-                    }
+                    broadcast(data + "\n");
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (AC == true && ready == 0) endGame();
+            //if (AC == true && ready == 0) endGame();
             if (ready == 3) startGame();
         }
     }
@@ -109,6 +95,17 @@ public class RoomThread extends Thread {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void broadcast(String data){
+        try {
+            for (Socket socket : sockets) {
+                DataOutputStream outToClient = new DataOutputStream(socket.getOutputStream());
+                outToClient.writeBytes(data);
+            }
+        } catch (IOException e) {
+            System.out.println("RoomThread" + e.getMessage());
         }
     }
 

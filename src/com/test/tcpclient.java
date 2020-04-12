@@ -1,7 +1,7 @@
 package com.test;
+
 import java.io.*;
 import java.net.*;
-import java.util.Scanner;
 
 public class tcpclient extends Thread{
     int server_port = 0;
@@ -33,23 +33,25 @@ public class tcpclient extends Thread{
             sentence = "LOGIN|tvd"+id;
             outToServer.writeBytes(sentence + '\n');
             modifiedSentence = inFromServer.readLine();
-            System.out.println("Received from server: " + modifiedSentence);
+            System.out.println("Received from server login: " + modifiedSentence);
             //join_room
             System.out.print("join_room: ");
             sentence = "JOIN_ROOM|"+9;
             outToServer.writeBytes(sentence + '\n');
             modifiedSentence = inFromServer.readLine();
-            System.out.println("Received from server: " + modifiedSentence);
+            System.out.println("Received from server join room: " + modifiedSentence);
+            sentence = "MOVE|1|1|1"+id;
+            outToServer.writeBytes(sentence + '\n');
             //move
-            while (true) {
-                System.out.print("Enter a sentence to send to server: ");
-                sentence = "MOVE|1|1|1";
-                if (sentence.equals("0")) break;
-                outToServer.writeBytes(sentence + '\n');
-                modifiedSentence = inFromServer.readLine();
-                System.out.println("Received from server: " + modifiedSentence);
-                Thread.sleep(50);
-            }
+            this.sleep(50);
+            new Demo(clientSocket,id).start();
+//            while (true) {
+//                this.sleep(100);
+//                sentence = "MOVE|1|1|1"+id;
+//                if (sentence.equals("0")) break;
+//                outToServer.writeBytes(sentence + '\n');
+//            }
+            this.sleep(4000);
             outToServer.writeBytes("QUIT" + '\n');
             clientSocket.close();
         } catch (Exception e) {

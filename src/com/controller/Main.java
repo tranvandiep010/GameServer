@@ -26,7 +26,7 @@ public class Main {
             while (flag == 1) {
                 try {
                     Socket socket = serverSocket.accept();
-                    System.out.println("Client" + socket.getPort());
+                    System.out.println("Client:" + socket.getPort());
                     SalveThread salveThread = new SalveThread(socket);
                     salveThread.start();
                 } catch (IOException e) {
