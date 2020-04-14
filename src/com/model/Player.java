@@ -1,38 +1,19 @@
 package com.model;
 
+import java.net.Socket;
+
 public class Player {
     private String name;
+    private Socket socket;
     private boolean isReady=false;
     private int position;
 
-    public Player(String name) {
+    public Player(String name, Socket socket, boolean isReady) {
         this.name = name;
+        this.socket = socket;
+        this.isReady = isReady;
     }
 
     public Player() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public boolean isReady() {
-        return isReady;
-    }
-
-    public void setReady(boolean ready) {
-        isReady = ready;
-    }
-
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
     }
 }

@@ -3,13 +3,12 @@ package com.test;
 import java.io.*;
 import java.net.*;
 
-public class tcpclient extends Thread {
+public class join extends Thread {
     int server_port = 0;
     String server_ip = "";
     int id = 0;
-    int move = 0;
 
-    public tcpclient(int server_port, String server_ip, int id) {
+    public join(int server_port, String server_ip, int id) {
         this.server_port = server_port;
         this.server_ip = server_ip;
         this.id = id;
@@ -29,8 +28,8 @@ public class tcpclient extends Thread {
             DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
             BufferedReader inFromServer = new BufferedReader(
                     new InputStreamReader(clientSocket.getInputStream()));
-            System.out.print("Login: ");
-            sentence = "LOGIN|tvd" + id;
+            Thread.sleep(20);
+            sentence = "JOIN_ROOM|tvd" + id + "|" + 9;
             outToServer.writeBytes(sentence + '\n');
             modifiedSentence = inFromServer.readLine();
             System.out.println("Received from server login: " + modifiedSentence);

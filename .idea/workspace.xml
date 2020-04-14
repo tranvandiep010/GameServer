@@ -2,11 +2,33 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c29479c5-a7f0-4fec-a744-d0721142d35a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/com/controller/IOThread.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/controller/LoginThread.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/controller/TaskThread.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/model/Constant.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/test/join.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/controller/RoomThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/controller/RoomThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/controller/SalveThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/controller/SalveThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/service/JoinRoom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/service/JoinRoom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/service/MessageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/service/MessageService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GameServer/com/controller/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GameServer/com/controller/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GameServer/com/controller/RoomThread.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GameServer/com/controller/SalveThread.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GameServer/com/model/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GameServer/com/model/Player.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GameServer/com/model/Room.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GameServer/com/model/Room.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GameServer/com/service/JoinRoom.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GameServer/com/service/Login.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GameServer/com/service/MessageService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GameServer/com/test/Clients.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GameServer/com/test/Clients.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GameServer/com/test/Demo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GameServer/com/test/tcpclient.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GameServer/com/test/tcpclient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/controller/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/RoomThread.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/SalveThread.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/model/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/model/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/model/Room.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/service/JoinRoom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/service/Login.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/service/MessageService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/test/Clients.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/test/Clients.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/test/Demo.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/test/tcpclient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/test/tcpclient.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -36,7 +58,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../WebServer" />
   </component>
   <component name="RunManager" selected="Application.tcpclient">
     <configuration name="Server" type="Application" factoryName="Application">
@@ -47,7 +69,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="tcpclient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="tcpclient" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.test.Clients" />
       <module name="GameServer" />
       <option name="PROGRAM_PARAMETERS" value="127.0.0.1 3308" />
@@ -65,11 +87,6 @@
       <item itemvalue="Application.Server" />
       <item itemvalue="Application.tcpclient" />
     </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.tcpclient" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -99,6 +116,10 @@
       <workItem from="1586669226485" duration="3207000" />
       <workItem from="1586672565334" duration="12235000" />
       <workItem from="1586693507534" duration="5700000" />
+      <workItem from="1586782139049" duration="730000" />
+      <workItem from="1586788050204" duration="1931000" />
+      <workItem from="1586854754603" duration="1317000" />
+      <workItem from="1586860886272" duration="11404000" />
     </task>
     <servers />
   </component>
@@ -110,10 +131,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="170" y="29" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1586060692170" />
-    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser" timestamp="1586695094827">
+    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser" timestamp="1586870456127">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1586695094827" />
+    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1586870456127" />
     <state x="412" y="148" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1586057235916">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -122,45 +143,64 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="357" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1366.728@0.0.1366.728" timestamp="1586006137411" />
-    <state x="413" y="111" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1586017795351">
+    <state x="413" y="111" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1586871239622">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="413" y="111" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1366.728@0.0.1366.728" timestamp="1586017795351" />
-    <state x="643" y="128" key="#xdebugger.evaluate" timestamp="1586696829988">
+    <state x="413" y="111" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1366.728@0.0.1366.728" timestamp="1586871239622" />
+    <state x="717" y="134" key="#xdebugger.evaluate" timestamp="1586873833891">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="643" y="128" key="#xdebugger.evaluate/0.0.1366.728@0.0.1366.728" timestamp="1586696829988" />
-    <state width="1323" height="223" key="GridCell.Tab.0.bottom" timestamp="1586699243326">
+    <state x="717" y="134" key="#xdebugger.evaluate/0.0.1366.728@0.0.1366.728" timestamp="1586873833891" />
+    <state x="463" y="119" key="FileChooserDialogImpl" timestamp="1586866947620">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="223" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1586699243326" />
-    <state width="1323" height="223" key="GridCell.Tab.0.center" timestamp="1586699243325">
+    <state x="463" y="119" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1586866947620" />
+    <state width="1323" height="223" key="GridCell.Tab.0.bottom" timestamp="1586873885820">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="223" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1586699243325" />
-    <state width="1323" height="223" key="GridCell.Tab.0.left" timestamp="1586699243325">
+    <state width="1323" height="223" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1586873885820" />
+    <state width="1323" height="223" key="GridCell.Tab.0.center" timestamp="1586873885820">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="223" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1586699243325" />
-    <state width="1323" height="223" key="GridCell.Tab.0.right" timestamp="1586699243325">
+    <state width="1323" height="223" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1586873885820" />
+    <state width="1323" height="223" key="GridCell.Tab.0.left" timestamp="1586873885820">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="223" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1586699243325" />
-    <state width="1323" height="223" key="GridCell.Tab.1.bottom" timestamp="1586699243327">
+    <state width="1323" height="223" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1586873885820" />
+    <state width="1323" height="223" key="GridCell.Tab.0.right" timestamp="1586873885820">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="223" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1586699243327" />
-    <state width="1323" height="223" key="GridCell.Tab.1.center" timestamp="1586699243326">
+    <state width="1323" height="223" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1586873885820" />
+    <state width="1323" height="223" key="GridCell.Tab.1.bottom" timestamp="1586873885820">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="223" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1586699243326" />
-    <state width="1323" height="223" key="GridCell.Tab.1.left" timestamp="1586699243326">
+    <state width="1323" height="223" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1586873885820" />
+    <state width="1323" height="223" key="GridCell.Tab.1.center" timestamp="1586873885820">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="223" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1586699243326" />
-    <state width="1323" height="223" key="GridCell.Tab.1.right" timestamp="1586699243326">
+    <state width="1323" height="223" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1586873885820" />
+    <state width="1323" height="223" key="GridCell.Tab.1.left" timestamp="1586873885820">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="223" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1586699243326" />
+    <state width="1323" height="223" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1586873885820" />
+    <state width="1323" height="223" key="GridCell.Tab.1.right" timestamp="1586873885820">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="223" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1586873885820" />
+    <state x="65" y="0" key="new project wizard" timestamp="1586856072071">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="65" y="0" key="new project wizard/0.0.1366.728@0.0.1366.728" timestamp="1586856072071" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/controller/LoginThread.java</url>
+          <line>40</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

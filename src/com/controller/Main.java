@@ -1,31 +1,31 @@
 package com.controller;
 
+import com.model.Constant;
+
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.logging.Level;
 
 public class Main {
-
-    static int serverPort;
-    public static int flag = 1;
 
     public static void main(String[] args) {
         setup();
         ServerSocket serverSocket = null;
         try {
-            System.out.println(Level.INFO + "Binding to port: {0}" + serverPort);
+            System.out.println(Level.INFO + "Binding to port: {0}" + Constant.SERVER_PORT);
             // create server socket with port = SERVER_PORT
-            serverSocket = new ServerSocket(serverPort);
+            serverSocket = new ServerSocket(Constant.SERVER_PORT);
             System.out.println(Level.INFO + "Server started: {0}" + serverSocket);
             System.out.println("Waiting for client ...");
             // wait client connect = TCP
-            while (flag == 1) {
+            while (true) {
                 try {
                     Socket socket = serverSocket.accept();
-                    System.out.println("Client:" + socket.getPort());
-                    SalveThread salveThread = new SalveThread(socket);
-                    salveThread.start();
+                    LoginThread loginThread = new LoginThread(socket);
+                    loginThread.start();
                 } catch (IOException e) {
                     System.out.println(e.getMessage());
                 }
@@ -46,23 +46,19 @@ public class Main {
 
 
     private static void setup() {
-        FileReader reader = null;
-        Properties p = null;
-        try {
-            reader = new FileReader("config/application.properties");
-            p = new Properties();
-            p.load(reader);
-            serverPort = Integer.parseInt(p.getProperty("SERVER_PORT"));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    System.out.println(e.getMessage());
-                }
+        Map<Integer, TaskThread> taskMap = new HashMap<>();
+        Map<Integer, IOThread> IOMap = new HashMap<>();
+        Map<Integer, Integer> numPlayers = new HashMap<>();
+        for (int level = 1; level <= Constant.NUM_OF_LEVEL; ++level) {
+            for (int room = 1; room <= Constant.NUM_OF_ROOM; ++room) {
+                BlockingQueue<String> queue = new LinkedBlockingDeque<>(20);
+                taskMap.put(level * Constant.NUM_OF_ROOM + room, new TaskThread(queue));
+                IOMap.put(level * Constant.NUM_OF_ROOM + room, new IOThread(queue));
+                numPlayers.put(level * Constant.NUM_OF_ROOM + room, 0);
             }
         }
+        LoginThread.taskMap = taskMap;
+        LoginThread.IOMap = IOMap;
+        LoginThread.numPlayers = numPlayers;
     }
 }

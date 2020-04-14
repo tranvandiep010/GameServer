@@ -29,11 +29,6 @@ public class Room {
         this.players = players;
     }
 
-    public Player findPlayer(String name){
-        for (Player player:players) if (player.getName().equals(name)) return player;
-        return null;
-    }
-
     public boolean isActive() {
         return isActive;
     }
