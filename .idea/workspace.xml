@@ -2,34 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c29479c5-a7f0-4fec-a744-d0721142d35a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/com/controller/IOThread.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/controller/LoginThread.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/controller/TaskThread.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/model/Constant.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/test/join.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/model/Bullet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/model/Enermy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/model/Item.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/model/Position.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GameServer/com/controller/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GameServer/com/controller/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GameServer/com/controller/RoomThread.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GameServer/com/controller/SalveThread.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GameServer/com/model/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GameServer/com/model/Player.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GameServer/com/model/Room.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GameServer/com/model/Room.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GameServer/com/service/JoinRoom.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GameServer/com/service/Login.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GameServer/com/service/MessageService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GameServer/com/test/Clients.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GameServer/com/test/Clients.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GameServer/com/test/Demo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GameServer/com/test/tcpclient.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GameServer/com/test/tcpclient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/controller/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/controller/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/controller/RoomThread.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/controller/SalveThread.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/model/Plane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/model/Plane.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/model/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/model/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/model/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/service/JoinRoom.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/service/Login.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/service/MessageService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/test/Clients.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/test/Clients.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/test/Demo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/test/tcpclient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/test/tcpclient.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +37,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../WebServer" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunManager" selected="Application.tcpclient">
     <configuration name="Server" type="Application" factoryName="Application">
@@ -120,6 +99,7 @@
       <workItem from="1586788050204" duration="1931000" />
       <workItem from="1586854754603" duration="1317000" />
       <workItem from="1586860886272" duration="11404000" />
+      <workItem from="1587311930488" duration="862000" />
     </task>
     <servers />
   </component>
@@ -131,10 +111,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="170" y="29" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1586060692170" />
-    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser" timestamp="1586870456127">
+    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser" timestamp="1587312685324">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1586870456127" />
+    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1587312685324" />
     <state x="412" y="148" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1586057235916">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

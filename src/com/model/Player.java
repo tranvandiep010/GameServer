@@ -6,7 +6,8 @@ public class Player {
     private String name;
     private Socket socket;
     private boolean isReady=false;
-    private int position;
+    private int score;
+    private Plane plane;
 
     public Player(String name, Socket socket, boolean isReady) {
         this.name = name;
