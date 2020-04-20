@@ -2,13 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c29479c5-a7f0-4fec-a744-d0721142d35a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/com/model/Bullet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/model/Enermy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/model/Item.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/model/Position.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_gson_gson_2_8_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/model/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/model/Plane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/model/Plane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/model/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameServer.iml" beforeDir="false" afterPath="$PROJECT_DIR$/GameServer.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/IOThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controller/IOThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/LoginThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controller/LoginThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controller/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/controller/TaskThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controller/TaskThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/model/Bullet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/model/Bullet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/model/Constant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/model/Constant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/model/Enermy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/model/Enermy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/model/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/model/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/model/Plane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/model/Plane.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/model/Player.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/model/Position.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/model/Position.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/model/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/model/Room.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/test/Clients.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/Clients.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/test/join.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/join.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/test/tcpclient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/tcpclient.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,11 +48,18 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.19770116" />
   </component>
   <component name="RunManager" selected="Application.tcpclient">
     <configuration name="Server" type="Application" factoryName="Application">
@@ -99,7 +121,9 @@
       <workItem from="1586788050204" duration="1931000" />
       <workItem from="1586854754603" duration="1317000" />
       <workItem from="1586860886272" duration="11404000" />
-      <workItem from="1587311930488" duration="862000" />
+      <workItem from="1587311930488" duration="1281000" />
+      <workItem from="1587378850588" duration="171000" />
+      <workItem from="1587387404389" duration="8826000" />
     </task>
     <servers />
   </component>
@@ -111,14 +135,18 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="170" y="29" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1586060692170" />
-    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser" timestamp="1587312685324">
+    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser" timestamp="1587396033773">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1587312685324" />
+    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1587396033773" />
     <state x="412" y="148" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1586057235916">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="412" y="148" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1366.728@0.0.1366.728" timestamp="1586057235916" />
+    <state x="313" y="53" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1587389831585">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="313" y="53" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/0.0.1366.728@0.0.1366.728" timestamp="1587389831585" />
     <state x="357" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1586006137411">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -167,20 +195,17 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="1323" height="223" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1586873885820" />
+    <state x="163" y="0" key="SettingsEditor" timestamp="1587389971175">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="163" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1587389971175" />
+    <state x="387" y="257" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1587389685090">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="387" y="257" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1366.728@0.0.1366.728" timestamp="1587389685090" />
     <state x="65" y="0" key="new project wizard" timestamp="1586856072071">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="65" y="0" key="new project wizard/0.0.1366.728@0.0.1366.728" timestamp="1586856072071" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/controller/LoginThread.java</url>
-          <line>40</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

@@ -3,7 +3,7 @@ package com.model;
 public class Plane {
     private int type;
     private Position position;
-    boolean isEnable;
+    private int health;
     private int numOfGun;
     private int shield;
 
@@ -23,12 +23,12 @@ public class Plane {
         this.position = position;
     }
 
-    public boolean isEnable() {
-        return isEnable;
+    public int getHealth() {
+        return health;
     }
 
-    public void setEnable(boolean enable) {
-        isEnable = enable;
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     public int getNumOfGun() {
