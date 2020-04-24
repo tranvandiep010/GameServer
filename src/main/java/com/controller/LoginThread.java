@@ -48,7 +48,7 @@ public class LoginThread extends Thread {
                                     task.start();
                                 }
                                 io.addPlayer(socket, data[1]);
-                                task.addPlayer(socket, data[1]);
+                                task.addPlayer(socket, data[1] ,data[2]);
                                 numPlayers.replace(idRoom, numPlayers.get(idRoom) + 1);
                                 outToClient.writeBytes("JOIN_ROOM|1\n");
                             } else {

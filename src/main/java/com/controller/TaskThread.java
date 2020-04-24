@@ -22,6 +22,7 @@ public class TaskThread extends Thread {
     List<Enermy> enermies = new ArrayList<>();
     List<Bullet> bullets = new ArrayList<>();
     List<Item> items = new ArrayList<>();
+    List<Position> positionDefault = new ArrayList<>();
     int ready = 0;
     int numPlayer = 0;
     boolean isStart = false;
@@ -29,6 +30,9 @@ public class TaskThread extends Thread {
 
     public TaskThread(BlockingQueue<String> IOQueue) {
         this.IOQueue = IOQueue;
+        positionDefault.add(new Position(0, 0, 2.98f));
+        positionDefault.add(new Position(-30, 0, 2.98f));
+        positionDefault.add(new Position(30, 0, 2.98f));
     }
 
     @Override
@@ -37,7 +41,7 @@ public class TaskThread extends Thread {
         long cycle = clock.millis();
         for (; ; ) {
             try {
-                String data = IOQueue.poll(4, TimeUnit.MILLISECONDS);
+                String data = IOQueue.poll(3, TimeUnit.MILLISECONDS);
                 if (data != null) handle(data);
                 long curr = clock.millis();
                 if (curr - cycle >= 50) {
@@ -59,11 +63,13 @@ public class TaskThread extends Thread {
 
     private void update() {
         System.out.println("Size" + IOQueue.size());
-        IOQueue.clear();
+        if (ready >= 3) IOQueue.clear();
     }
 
-    public void addPlayer(Socket socket, String name) {
+    public void addPlayer(Socket socket, String name, String plane) {
         Player player = new Player(name, true);
+        player.setPosition(positionDefault.get(numPlayer));
+        player.setPlane(Integer.parseInt(plane));
         players.add(player);
         sockets.add(socket);
         numPlayer++;
@@ -79,9 +85,7 @@ public class TaskThread extends Thread {
                 String name = data[4];
                 for (Player player : players)
                     if (player.getName().equals(name)) {
-                        if (player.getPlane() != null)
-                            player.getPlane().setPosition(new Position(x, y, z));
-                        else player.setPlane(new Plane(new Position(x, y, z)));
+                        player.setPosition(new Position(x, y, z));
                         break;
                     }
             } else if (data[0].equals("START")) {

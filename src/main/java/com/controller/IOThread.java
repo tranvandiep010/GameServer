@@ -1,6 +1,7 @@
 package com.controller;
 
 import com.model.Player;
+import com.model.Position;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,13 +24,6 @@ public class IOThread extends Thread {
 
     @Override
     public void run() {
-        while (ready < 3) {
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
         for (; ; ) {
             for (BufferedReader reader : readers) {
                 try {
@@ -50,7 +44,6 @@ public class IOThread extends Thread {
     }
 
     public void addPlayer(Socket socket, String name) {
-        ready++;
         Player player = new Player(name, true);
         players.add(player);
         InputStreamReader inputStreamReader = null;
@@ -60,6 +53,7 @@ public class IOThread extends Thread {
             e.printStackTrace();
         }
         readers.add(new BufferedReader(inputStreamReader));
+        ready++;
     }
 
     public int getNumPlayers() {

@@ -1,11 +1,11 @@
 package com.model;
 
 public class Position {
-    private int x;
-    private int y;
-    private int z;
+    private float x;
+    private float y;
+    private float z;
 
-    public Position(int x, int y, int z) {
+    public Position(float x, float y, float z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -14,27 +14,27 @@ public class Position {
     public Position() {
     }
 
-    public int getX() {
+    public float getX() {
         return x;
     }
 
-    public void setX(int x) {
+    public void setX(float x) {
         this.x = x;
     }
 
-    public int getY() {
+    public float getY() {
         return y;
     }
 
-    public void setY(int y) {
+    public void setY(float y) {
         this.y = y;
     }
 
-    public int getZ() {
+    public float getZ() {
         return z;
     }
 
-    public void setZ(int z) {
+    public void setZ(float z) {
         this.z = z;
     }
 }
