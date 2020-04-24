@@ -61,9 +61,10 @@ public class TaskThread extends Thread {
         }
     }
 
+    //cập nhật sau khi gửi xong
     private void update() {
         System.out.println("Size" + IOQueue.size());
-        if (ready >= 3) IOQueue.clear();
+        if (ready >= 3) IOQueue.clear();// chỉ xóa những dữ liệu không nhạy cảm
     }
 
     public void addPlayer(Socket socket, String name, String plane) {
@@ -75,6 +76,8 @@ public class TaskThread extends Thread {
         numPlayer++;
     }
 
+
+    //xử lí dữ liệu đầu vào
     public void handle(String message) {
         String[] data = message.split("\\|");
         if (data.length > 0) {
@@ -120,6 +123,12 @@ public class TaskThread extends Thread {
         }
     }
 
+    //tạo mục tiêu
+    public void createEnermy(){
+
+    }
+
+    //gửi dữ liệu đi
     public void sendData() throws JsonProcessingException {
         List<String> jsonString = new ArrayList<>();
         String[] a = new String[Constant.NUM_OF_PLAYER];
