@@ -9,6 +9,7 @@ public class Player {
     private int plane;
     private Position position;
     private int health;
+    private int numOfGun;
     private int shield;
     private Item item;
 
@@ -94,5 +95,13 @@ public class Player {
 
     public void setItem(Item item) {
         this.item = item;
+    }
+
+    public int getNumOfGun() {
+        return numOfGun;
+    }
+
+    public void setNumOfGun(int numOfGun) {
+        this.numOfGun = numOfGun;
     }
 }
