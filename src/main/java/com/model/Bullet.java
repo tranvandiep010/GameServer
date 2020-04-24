@@ -4,13 +4,19 @@ public class Bullet {
     private int type;
     private Position position;
     private String owner;
-    private int TTL;
+    private int enable;
 
     public Bullet(int type, Position position, String owner) {
         this.type = type;
         this.position = position;
         this.owner = owner;
-        this.TTL = 120;
+    }
+
+    public Bullet(int type, Position position, String owner, int status) {
+        this.type = type;
+        this.position = position;
+        this.owner = owner;
+        this.enable = status;
     }
 
     public int getType() {
@@ -37,11 +43,11 @@ public class Bullet {
         this.owner = owner;
     }
 
-    public int getTTL() {
-        return TTL;
+    public int getStatus() {
+        return enable;
     }
 
-    public void setTTL(int TTL) {
-        this.TTL = TTL;
+    public void setStatus(int status) {
+        this.enable = status;
     }
 }

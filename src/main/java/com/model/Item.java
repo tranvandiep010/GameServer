@@ -3,12 +3,17 @@ package com.model;
 public class Item {
     private int id;
     private int type;
-    private int TTL;
+    private int status;
 
     public Item(int id, int type) {
         this.id = id;
         this.type = type;
-        this.TTL = 120;
+    }
+
+    public Item(int id, int type, int status) {
+        this.id = id;
+        this.type = type;
+        this.status = status;
     }
 
     public int getId() {
@@ -25,13 +30,5 @@ public class Item {
 
     public void setType(int type) {
         this.type = type;
-    }
-
-    public int getTTL() {
-        return TTL;
-    }
-
-    public void setTTL(int TTL) {
-        this.TTL = TTL;
     }
 }

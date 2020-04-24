@@ -4,14 +4,12 @@ public class Enermy {
     private long id;
     private int type;
     private Plane plane;
-    private boolean enable;
-    private int TTL;
+    private int enable;
 
-    public Enermy(int type, Plane plane, boolean enable) {
+    public Enermy(long id, int type, int enable) {
+        this.id = id;
         this.type = type;
-        this.plane = plane;
         this.enable = enable;
-        this.TTL=120;
     }
 
     public Enermy() {
@@ -33,11 +31,11 @@ public class Enermy {
         this.plane = plane;
     }
 
-    public boolean isEnable() {
+    public int isEnable() {
         return enable;
     }
 
-    public void setEnable(boolean enable) {
+    public void setEnable(int enable) {
         this.enable = enable;
     }
 
@@ -47,13 +45,5 @@ public class Enermy {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public int getTTL() {
-        return TTL;
-    }
-
-    public void setTTL(int TTL) {
-        this.TTL = TTL;
     }
 }

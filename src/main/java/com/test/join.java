@@ -33,7 +33,23 @@ public class join extends Thread {
             outToServer.writeBytes(sentence + '\n');
             modifiedSentence = inFromServer.readLine();
             System.out.println("Received from server login: " + modifiedSentence);
-            clientSocket.close();
+            if (modifiedSentence.equals("JOIN_ROOM|1")) {
+                try {
+                    while (true) {
+                        String mess = "MOVE|" + id + "|" + id + "|" + id + "|tvd" + id;
+                        outToServer.writeBytes(mess + '\n');
+                        modifiedSentence = inFromServer.readLine();
+                        System.out.println("Received from server login: " + modifiedSentence);
+                        try {
+                            Thread.sleep(4);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else clientSocket.close();
         } catch (Exception e) {
             System.out.println("Cannot connect to TCP Server.\n Please check the server and run tcpclient again.");
             System.exit(0);

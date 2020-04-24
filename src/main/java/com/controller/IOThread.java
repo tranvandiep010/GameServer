@@ -14,7 +14,8 @@ public class IOThread extends Thread {
 
     BlockingQueue<String> IOQueue = null;
     List<Player> players = new ArrayList<>();
-    List<BufferedReader> readers=new ArrayList<>();
+    List<BufferedReader> readers = new ArrayList<>();
+    int ready = 0;
 
     public IOThread(BlockingQueue<String> IOQueue) {
         this.IOQueue = IOQueue;
@@ -22,10 +23,17 @@ public class IOThread extends Thread {
 
     @Override
     public void run() {
+        while (ready < 3) {
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         for (; ; ) {
-            for (BufferedReader reader:readers){
+            for (BufferedReader reader : readers) {
                 try {
-                    if (reader.ready()){
+                    if (reader.ready()) {
                         IOQueue.put(reader.readLine());
                     }
                 } catch (IOException | InterruptedException e) {
@@ -33,11 +41,17 @@ public class IOThread extends Thread {
                     IOQueue.removeAll(null);
                 }
             }
+            try {
+                Thread.sleep(3);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public void addPlayer(Socket socket, String name) {
-        Player player = new Player(name, socket, true);
+        ready++;
+        Player player = new Player(name, true);
         players.add(player);
         InputStreamReader inputStreamReader = null;
         try {
@@ -48,7 +62,7 @@ public class IOThread extends Thread {
         readers.add(new BufferedReader(inputStreamReader));
     }
 
-    public int getNumPlayers(){
+    public int getNumPlayers() {
         return players.size();
     }
 }

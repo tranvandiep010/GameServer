@@ -1,7 +1,7 @@
 package com.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.model.*;
 
 import java.io.DataOutputStream;
@@ -23,15 +23,12 @@ public class TaskThread extends Thread {
     List<Bullet> bullets = new ArrayList<>();
     List<Item> items = new ArrayList<>();
     int ready = 0;
+    int numPlayer = 0;
     boolean isStart = false;
-    GsonBuilder builder = new GsonBuilder();
-
-    Gson gson;
+    ObjectMapper mapper = new ObjectMapper();
 
     public TaskThread(BlockingQueue<String> IOQueue) {
         this.IOQueue = IOQueue;
-        builder.setPrettyPrinting();
-        gson = builder.create();
     }
 
     @Override
@@ -40,13 +37,18 @@ public class TaskThread extends Thread {
         long cycle = clock.millis();
         for (; ; ) {
             try {
-                String data = IOQueue.poll(5, TimeUnit.MILLISECONDS);
-                handle(data);
+                String data = IOQueue.poll(4, TimeUnit.MILLISECONDS);
+                if (data != null) handle(data);
                 long curr = clock.millis();
                 if (curr - cycle >= 50) {
-                    sendData();
+                    try {
+                        sendData();
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
                     //empty queue
                     if (isStart && ready == 0) break;
+                    update();
                     cycle = curr;
                 }
             } catch (InterruptedException e) {
@@ -56,24 +58,15 @@ public class TaskThread extends Thread {
     }
 
     private void update() {
-        for (Bullet bullet : bullets) {
-            bullet.setTTL(bullet.getTTL() - 1);
-            if (bullet.getTTL() == 0) bullets.remove(bullet);
-        }
-        for (Item item : items) {
-            item.setTTL(item.getTTL() - 1);
-            if (item.getTTL() == 0) items.remove(item);
-        }
-        for (Enermy enermy : enermies) {
-            enermy.setTTL(enermy.getTTL() - 1);
-            if (enermy.getTTL() == 0) enermies.remove(enermy);
-        }
+        System.out.println("Size" + IOQueue.size());
+        IOQueue.clear();
     }
 
     public void addPlayer(Socket socket, String name) {
         Player player = new Player(name, true);
         players.add(player);
         sockets.add(socket);
+        numPlayer++;
     }
 
     public void handle(String message) {
@@ -86,43 +79,33 @@ public class TaskThread extends Thread {
                 String name = data[4];
                 for (Player player : players)
                     if (player.getName().equals(name)) {
-                        player.getPlane().setPosition(new Position(x, y, z));
+                        if (player.getPlane() != null)
+                            player.getPlane().setPosition(new Position(x, y, z));
+                        else player.setPlane(new Plane(new Position(x, y, z)));
                         break;
                     }
             } else if (data[0].equals("START")) {
                 ready++;
             } else if (data[0].equals("ENERMY")) {
-                int index = 0, i = 0;
-                for (Enermy enermy : enermies) {
-                    if (enermy.getId() == Integer.parseInt(data[1])) {
-                        index = i;
-                        break;
-                    }
-                    i++;
-                }
-                enermies.remove(index);
+                enermies.add(new Enermy(Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[4])));
+                //TODO
+                //add score player
             } else if (data[0].equals("ITEM")) {
-                int index = 0, i = 0;
-                for (Item item : items) {
-                    if (item.getId() == Integer.parseInt(data[1])) {
-                        //TODO
-                        // add score for player
-                        index = i;
-                        break;
-                    }
-                    i++;
-                }
-                enermies.remove(index);
+                items.add(new Item(Integer.parseInt(data[1]), Integer.parseInt(data[2]), 0));
+                //TODO
+                //add score player
             } else if (data[0].equals("BULLET")) {
-                bullets.add(new Bullet(Integer.parseInt(data[1]), new Position(Integer.parseInt(data[2]), Integer.parseInt(data[3]), Integer.parseInt(data[4])), data[5]));
+                bullets.add(new Bullet(Integer.parseInt(data[1]), new Position(Integer.parseInt(data[2]), Integer.parseInt(data[3]), Integer.parseInt(data[4])), data[5], Integer.parseInt(data[6])));
             } else if (data[0].equals("ENDGAME")) {
                 ready--;
+                //remove player
                 int index = 0;
                 for (Player player : players) {
                     if (player.equals(data[1])) break;
                     index++;
                 }
                 players.remove(index);
+                //remove socket
                 try {
                     sockets.get(index).close();
                 } catch (IOException e) {
@@ -133,7 +116,7 @@ public class TaskThread extends Thread {
         }
     }
 
-    public void sendData() {
+    public void sendData() throws JsonProcessingException {
         List<String> jsonString = new ArrayList<>();
         String[] a = new String[Constant.NUM_OF_PLAYER];
         String[] b = new String[enermies.size()];
@@ -142,22 +125,23 @@ public class TaskThread extends Thread {
         //execute
         if (!isStart && ready == Constant.NUM_OF_PLAYER) jsonString.add("START");
         int i = 0;
-        for (Player player : players) a[i++] = gson.toJson(player);
+        for (Player player : players) a[i++] = mapper.writeValueAsString(player);
         jsonString.add(Arrays.toString(a));//player
         i = 0;
-        for (Enermy enermy : enermies) b[i++] = gson.toJson(enermy);
+        for (Enermy enermy : enermies) b[i++] = mapper.writeValueAsString(enermy);
+        enermies.clear();
         jsonString.add(Arrays.toString(b));//enermy
         i = 0;
-        for (Bullet bullet : bullets) c[i++] = gson.toJson(bullet);
+        for (Bullet bullet : bullets) c[i++] = mapper.writeValueAsString(bullet);
+        bullets.clear();
         jsonString.add(Arrays.toString(c));//bullet
         i = 0;
-        for (Item item : items) d[i++] = gson.toJson(item);
+        for (Item item : items) d[i++] = mapper.writeValueAsString(item);
         jsonString.add(Arrays.toString(d));//item
-        String data = "[" + String.join(",", jsonString) + "]\n";
         for (Socket socket : sockets) {
             try {
                 DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
-                outputStream.writeBytes(data);
+                outputStream.writeBytes("[" + String.join(",", jsonString) + "]\n");
             } catch (IOException e) {
                 System.out.println("Send data error");
                 e.printStackTrace();

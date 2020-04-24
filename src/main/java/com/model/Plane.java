@@ -7,6 +7,10 @@ public class Plane {
     private int numOfGun;
     private int shield;
 
+    public Plane(Position position) {
+        this.position = position;
+    }
+
     public int getType() {
         return type;
     }
