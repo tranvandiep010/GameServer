@@ -63,16 +63,17 @@ public class TaskThread extends Thread {
 
     //cập nhật sau khi gửi xong
     private void update() {
-        System.out.println("Size" + IOQueue.size());
+        //System.out.println("Size" + IOQueue.size());
         if (ready >= 3) IOQueue.clear();// chỉ xóa những dữ liệu không nhạy cảm
     }
 
-    public void addPlayer(Socket socket, String name, String plane) {
+    public synchronized void addPlayer(Socket socket, String name, String plane) {
         Player player = new Player(name, true);
         player.setPosition(positionDefault.get(numPlayer));
         player.setPlane(Integer.parseInt(plane));
         players.add(player);
         sockets.add(socket);
+        System.out.println(name);
         numPlayer++;
     }
 
@@ -133,28 +134,18 @@ public class TaskThread extends Thread {
         List<String> jsonString = new ArrayList<>();
         String[] a = new String[Constant.NUM_OF_PLAYER];
         String[] b = new String[enermies.size()];
-        String[] c = new String[bullets.size()];
-        String[] d = new String[items.size()];
         //execute
-        if (!isStart && ready == Constant.NUM_OF_PLAYER) jsonString.add("START");
         int i = 0;
         for (Player player : players) a[i++] = mapper.writeValueAsString(player);
-        jsonString.add(Arrays.toString(a));//player
+        jsonString.add(String.join("|",a));//player
         i = 0;
         for (Enermy enermy : enermies) b[i++] = mapper.writeValueAsString(enermy);
         enermies.clear();
-        jsonString.add(Arrays.toString(b));//enermy
-        i = 0;
-        for (Bullet bullet : bullets) c[i++] = mapper.writeValueAsString(bullet);
-        bullets.clear();
-        jsonString.add(Arrays.toString(c));//bullet
-        i = 0;
-        for (Item item : items) d[i++] = mapper.writeValueAsString(item);
-        jsonString.add(Arrays.toString(d));//item
+        jsonString.add(String.join("|",b));//enermy
         for (Socket socket : sockets) {
             try {
                 DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
-                outputStream.writeBytes("[" + String.join(",", jsonString) + "]\n");
+                outputStream.writeBytes(String.join("|", jsonString)+"\n");
             } catch (IOException e) {
                 System.out.println("Send data error");
                 e.printStackTrace();

@@ -9,9 +9,8 @@ public class Player {
     private int plane;
     private Position position;
     private int health;
-    private int numOfGun;
+    private int gun;
     private int shield;
-    private Item item;
 
     public Player(String name, boolean enable) {
         this.name = name;
@@ -19,18 +18,6 @@ public class Player {
     }
 
     public Player() {
-    }
-
-
-    public Player(String name, boolean enable, int score, int plane, Position position, int health, int shield, Item item) {
-        this.name = name;
-        this.enable = enable;
-        this.score = score;
-        this.plane = plane;
-        this.position = position;
-        this.health = health;
-        this.shield = shield;
-        this.item = item;
     }
 
     public String getName() {
@@ -81,6 +68,14 @@ public class Player {
         this.health = health;
     }
 
+    public int getGun() {
+        return gun;
+    }
+
+    public void setGun(int gun) {
+        this.gun = gun;
+    }
+
     public int getShield() {
         return shield;
     }
@@ -89,19 +84,14 @@ public class Player {
         this.shield = shield;
     }
 
-    public Item getItem() {
-        return item;
-    }
-
-    public void setItem(Item item) {
-        this.item = item;
-    }
-
-    public int getNumOfGun() {
-        return numOfGun;
-    }
-
-    public void setNumOfGun(int numOfGun) {
-        this.numOfGun = numOfGun;
+    public Player(String name, boolean enable, int score, int plane, Position position, int health, int gun, int shield) {
+        this.name = name;
+        this.enable = enable;
+        this.score = score;
+        this.plane = plane;
+        this.position = position;
+        this.health = health;
+        this.gun = gun;
+        this.shield = shield;
     }
 }

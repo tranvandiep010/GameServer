@@ -35,15 +35,15 @@ public class IOThread extends Thread {
                     IOQueue.removeAll(null);
                 }
             }
-            try {
-                Thread.sleep(3);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Thread.sleep(3);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
         }
     }
 
-    public void addPlayer(Socket socket, String name) {
+    public synchronized void addPlayer(Socket socket, String name) {
         Player player = new Player(name, true);
         players.add(player);
         InputStreamReader inputStreamReader = null;
