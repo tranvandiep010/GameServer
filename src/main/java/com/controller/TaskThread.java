@@ -20,7 +20,7 @@ public class TaskThread extends Thread {
     List<Player> players = new ArrayList<>();
     List<Socket> sockets = new ArrayList<>();
     List<Enermy> enermies = new ArrayList<>();
-    List<Bullet> bullets = new ArrayList<>();
+    List<String> bullets = new ArrayList<>();
     List<Item> items = new ArrayList<>();
     List<Position> positionDefault = new ArrayList<>();
     int ready = 0;
@@ -63,8 +63,8 @@ public class TaskThread extends Thread {
 
     //cập nhật sau khi gửi xong
     private void update() {
-        //System.out.println("Size" + IOQueue.size());
-        if (ready >= 3) IOQueue.clear();// chỉ xóa những dữ liệu không nhạy cảm
+        System.out.println("Size" + IOQueue.size());
+        //if (ready >= 3) IOQueue.clear();// chỉ xóa những dữ liệu không nhạy cảm
     }
 
     public synchronized void addPlayer(Socket socket, String name, String plane) {
@@ -73,7 +73,6 @@ public class TaskThread extends Thread {
         player.setPlane(Integer.parseInt(plane));
         players.add(player);
         sockets.add(socket);
-        System.out.println(name);
         numPlayer++;
     }
 
@@ -102,8 +101,8 @@ public class TaskThread extends Thread {
                 items.add(new Item(Integer.parseInt(data[1]), Integer.parseInt(data[2]), 0));
                 //TODO
                 //add score player
-            } else if (data[0].equals("BULLET")) {
-                bullets.add(new Bullet(Integer.parseInt(data[1]), new Position(Integer.parseInt(data[2]), Integer.parseInt(data[3]), Integer.parseInt(data[4])), data[5], Integer.parseInt(data[6])));
+            } else if (data[0].equals("SHOT")) {
+                transfer(message);
             } else if (data[0].equals("ENDGAME")) {
                 ready--;
                 //remove player
@@ -131,7 +130,19 @@ public class TaskThread extends Thread {
 
     //gửi dữ liệu đi
     public void sendData() throws JsonProcessingException {
+        if (ready==3){
+            for (Socket socket : sockets) {
+                try {
+                    DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
+                    outputStream.writeBytes("START\n");
+                } catch (IOException e) {
+                    System.out.println("Send data error");
+                    e.printStackTrace();
+                }
+            }
+        }
         List<String> jsonString = new ArrayList<>();
+        jsonString.add("STATE");
         String[] a = new String[Constant.NUM_OF_PLAYER];
         String[] b = new String[enermies.size()];
         //execute
@@ -142,10 +153,14 @@ public class TaskThread extends Thread {
         for (Enermy enermy : enermies) b[i++] = mapper.writeValueAsString(enermy);
         enermies.clear();
         jsonString.add(String.join("|",b));//enermy
+        transfer(String.join("|", jsonString));
+    }
+
+    private void transfer(String message){
         for (Socket socket : sockets) {
             try {
                 DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
-                outputStream.writeBytes(String.join("|", jsonString)+"\n");
+                outputStream.writeBytes(message+"\n");
             } catch (IOException e) {
                 System.out.println("Send data error");
                 e.printStackTrace();

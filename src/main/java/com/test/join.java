@@ -2,6 +2,7 @@ package com.test;
 
 import java.io.*;
 import java.net.*;
+import java.time.Clock;
 
 public class join extends Thread {
     int server_port = 0;
@@ -35,15 +36,23 @@ public class join extends Thread {
             System.out.println("Received from server login: " + modifiedSentence);
             if (modifiedSentence.equals("JOIN_ROOM|1")) {
                 try {
+                    Clock clock = Clock.systemDefaultZone();
+                    long cycle1 = clock.millis();
+                    long cycle2 = clock.millis();
                     while (true) {
-                        String mess = "MOVE|" + id + "|" + id + "|" + id + "|tvd" + id;
-                        outToServer.writeBytes(mess + '\n');
-                        modifiedSentence = inFromServer.readLine();
-                        System.out.println("Received from server login: " + modifiedSentence);
-                        try {
-                            Thread.sleep(4);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                        long curr = clock.millis();
+                        if (curr - cycle1 >= 8) {
+                            String mess = "MOVE|" + id + "|" + id + "|" + id + "|tvd" + id;
+                            outToServer.writeBytes(mess + '\n');
+                            cycle1=clock.millis();
+                        }
+                        if (curr - cycle2 >= 500) {
+                            String mess = "SHOT|tvd" + id;
+                            outToServer.writeBytes(mess + '\n');
+                            cycle2=clock.millis();
+                        }
+                        if (inFromServer.ready()){
+                            System.out.println(inFromServer.readLine());
                         }
                     }
                 } catch (IOException e) {

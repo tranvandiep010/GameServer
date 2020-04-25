@@ -51,7 +51,7 @@ public class Main {
         Map<Integer, Integer> numPlayers = new HashMap<>();
         for (int level = 1; level <= Constant.NUM_OF_LEVEL; ++level) {
             for (int room = 1; room <= Constant.NUM_OF_ROOM; ++room) {
-                BlockingQueue<String> queue = new LinkedBlockingDeque<>(30);
+                BlockingQueue<String> queue = new LinkedBlockingDeque<>(50);
                 taskMap.put(level * Constant.NUM_OF_ROOM + room, new TaskThread(queue));
                 IOMap.put(level * Constant.NUM_OF_ROOM + room, new IOThread(queue));
                 numPlayers.put(level * Constant.NUM_OF_ROOM + room, 0);
