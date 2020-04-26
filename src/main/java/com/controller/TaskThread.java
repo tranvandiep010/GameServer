@@ -93,7 +93,7 @@ public class TaskThread extends Thread {
                         player.setPosition(new Position(x, y, z));
                         break;
                     }
-            } else if (data[0].equals("START")) {
+            } else if (data[0].equals("READY")) {
                 guards++;
             } else if (data[0].equals("ENERMY")) {
                 enermies.add(new Enermy(Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[4])));
