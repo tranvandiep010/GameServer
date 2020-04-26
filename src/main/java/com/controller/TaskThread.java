@@ -2,6 +2,7 @@ package com.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.log.Log;
 import com.model.*;
 
 import java.io.DataOutputStream;
@@ -9,10 +10,10 @@ import java.io.IOException;
 import java.net.Socket;
 import java.time.Clock;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 public class TaskThread extends Thread {
 
@@ -20,13 +21,14 @@ public class TaskThread extends Thread {
     List<Player> players = new ArrayList<>();
     List<Socket> sockets = new ArrayList<>();
     List<Enermy> enermies = new ArrayList<>();
-    List<String> bullets = new ArrayList<>();
+    //List<String> bullets = new ArrayList<>();
     List<Item> items = new ArrayList<>();
     List<Position> positionDefault = new ArrayList<>();
-    int ready = 0;
-    int numPlayer = 0;
-    boolean isStart = false;
+    Integer ready = 0;
+    Integer numPlayer = 0;
+    Integer guards=0;
     ObjectMapper mapper = new ObjectMapper();
+    Logger logger = Log.getLogger();
 
     public TaskThread(BlockingQueue<String> IOQueue) {
         this.IOQueue = IOQueue;
@@ -51,7 +53,7 @@ public class TaskThread extends Thread {
                         e.printStackTrace();
                     }
                     //empty queue
-                    if (isStart && ready == 0) break;
+                    if (numPlayer == 0 && ready!=0) break;
                     update();
                     cycle = curr;
                 }
@@ -63,11 +65,12 @@ public class TaskThread extends Thread {
 
     //cập nhật sau khi gửi xong
     private void update() {
+//        logger.info("Size" + IOQueue.size());
         System.out.println("Size" + IOQueue.size());
         //if (ready >= 3) IOQueue.clear();// chỉ xóa những dữ liệu không nhạy cảm
     }
 
-    public synchronized void addPlayer(Socket socket, String name, String plane) {
+    public void addPlayer(Socket socket, String name, String plane) {
         Player player = new Player(name, true);
         player.setPosition(positionDefault.get(numPlayer));
         player.setPlane(Integer.parseInt(plane));
@@ -75,7 +78,6 @@ public class TaskThread extends Thread {
         sockets.add(socket);
         numPlayer++;
     }
-
 
     //xử lí dữ liệu đầu vào
     public void handle(String message) {
@@ -92,7 +94,7 @@ public class TaskThread extends Thread {
                         break;
                     }
             } else if (data[0].equals("START")) {
-                ready++;
+                guards++;
             } else if (data[0].equals("ENERMY")) {
                 enermies.add(new Enermy(Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[4])));
                 //TODO
@@ -104,7 +106,8 @@ public class TaskThread extends Thread {
             } else if (data[0].equals("SHOT")) {
                 transfer(message);
             } else if (data[0].equals("ENDGAME")) {
-                ready--;
+                numPlayer--;
+                guards--;
                 //remove player
                 int index = 0;
                 for (Player player : players) {
@@ -124,22 +127,15 @@ public class TaskThread extends Thread {
     }
 
     //tạo mục tiêu
-    public void createEnermy(){
+    public void createEnermy() {
 
     }
 
     //gửi dữ liệu đi
     public void sendData() throws JsonProcessingException {
-        if (ready==3){
-            for (Socket socket : sockets) {
-                try {
-                    DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
-                    outputStream.writeBytes("START\n");
-                } catch (IOException e) {
-                    System.out.println("Send data error");
-                    e.printStackTrace();
-                }
-            }
+        if (ready == 0 && guards == 3) {
+            transfer("START");
+            ready = 1;
         }
         List<String> jsonString = new ArrayList<>();
         jsonString.add("STATE");
@@ -148,21 +144,21 @@ public class TaskThread extends Thread {
         //execute
         int i = 0;
         for (Player player : players) a[i++] = mapper.writeValueAsString(player);
-        jsonString.add(String.join("|",a));//player
+        jsonString.add(String.join("|", a));//player
         i = 0;
         for (Enermy enermy : enermies) b[i++] = mapper.writeValueAsString(enermy);
         enermies.clear();
-        jsonString.add(String.join("|",b));//enermy
+        jsonString.add(String.join("|", b));//enermy
         transfer(String.join("|", jsonString));
     }
 
-    private void transfer(String message){
+    private void transfer(String message) {
         for (Socket socket : sockets) {
             try {
                 DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
-                outputStream.writeBytes(message+"\n");
+                outputStream.writeBytes(message + "\n");
             } catch (IOException e) {
-                System.out.println("Send data error");
+                logger.warning("Send data error");
                 e.printStackTrace();
             }
         }
