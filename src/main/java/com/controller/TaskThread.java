@@ -84,9 +84,9 @@ public class TaskThread extends Thread {
         String[] data = message.split("\\|");
         if (data.length > 0) {
             if (data[0].equals("MOVE")) {
-                int x = Integer.parseInt(data[1]);
-                int y = Integer.parseInt(data[2]);
-                int z = Integer.parseInt(data[3]);
+                Float x = Float.parseFloat(data[1]);
+                Float y = Float.parseFloat(data[2]);
+                Float z = Float.parseFloat(data[3]);
                 String name = data[4];
                 for (Player player : players)
                     if (player.getName().equals(name)) {
