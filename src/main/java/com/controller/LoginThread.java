@@ -13,7 +13,7 @@ public class LoginThread extends Thread {
     String requestMessageLine = null;
     protected static List<String> users = new ArrayList<>();
     protected static Map<Integer, TaskThread> taskMap = new HashMap<>();
-    protected static Map<Integer, IOThread> IOMap = new HashMap<>();
+    protected static Map<Integer, ReceiveThread> IMap = new HashMap<>();
     protected static Map<Integer, Integer> numPlayers = new HashMap<>();
 
     public LoginThread(Socket socket) {
@@ -43,7 +43,7 @@ public class LoginThread extends Thread {
                             if (users.contains(data[1])) {
                                 int idRoom = Integer.parseInt(data[2]);
                                 TaskThread task = taskMap.get(idRoom);
-                                IOThread io = IOMap.get(idRoom);
+                                ReceiveThread io = IMap.get(idRoom);
                                 if (numPlayers.get(idRoom) < Room.MAX_PEOPLE) {
                                     if (!io.isAlive()) {
                                         task.start();

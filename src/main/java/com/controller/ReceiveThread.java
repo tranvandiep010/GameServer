@@ -11,15 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
-public class IOThread extends Thread {
+public class ReceiveThread extends Thread {
 
-    BlockingQueue<String> IOQueue = null;
+    BlockingQueue<String> IQueue = null;
     List<Player> players = new ArrayList<>();
     BufferedReader[] readers = new BufferedReader[3];
     int ready = 0;
 
-    public IOThread(BlockingQueue<String> IOQueue) {
-        this.IOQueue = IOQueue;
+    public ReceiveThread(BlockingQueue<String> IQueue) {
+        this.IQueue = IQueue;
     }
 
     @Override
@@ -28,11 +28,11 @@ public class IOThread extends Thread {
             for (int i = 0; i < ready; ++i) {
                 try {
                     if (readers[i].ready()) {
-                        IOQueue.put(readers[i].readLine());
+                        IQueue.put(readers[i].readLine());
                     }
                 } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
-                    IOQueue.removeAll(null);
+                    IQueue.removeAll(null);
                 }
             }
 //            try {

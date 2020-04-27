@@ -12,29 +12,31 @@ import java.time.Clock;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 public class TaskThread extends Thread {
 
-    BlockingQueue<String> IOQueue = null;
+    BlockingQueue<String> IQueue = null;
+    BlockingQueue<String> OQueue = new LinkedBlockingDeque<>(50);
     List<Player> players = new ArrayList<>();
     List<Socket> sockets = new ArrayList<>();
     List<Enermy> enermies = new ArrayList<>();
-    //List<String> bullets = new ArrayList<>();
     List<Item> items = new ArrayList<>();
     List<Position> positionDefault = new ArrayList<>();
     Integer ready = 0;
     Integer numPlayer = 0;
-    Integer guards=0;
+    Integer guards = 0;
     ObjectMapper mapper = new ObjectMapper();
     Logger logger = Log.getLogger();
 
-    public TaskThread(BlockingQueue<String> IOQueue) {
-        this.IOQueue = IOQueue;
+    public TaskThread(BlockingQueue<String> IQueue) {
+        this.IQueue = IQueue;
         positionDefault.add(new Position(0, 0, 2.98f));
         positionDefault.add(new Position(-30, 0, 2.98f));
         positionDefault.add(new Position(30, 0, 2.98f));
+        new SendThread(sockets, OQueue).start();
     }
 
     @Override
@@ -43,17 +45,17 @@ public class TaskThread extends Thread {
         long cycle = clock.millis();
         for (; ; ) {
             try {
-                String data = IOQueue.poll(3, TimeUnit.MILLISECONDS);
+                String data = IQueue.poll(2, TimeUnit.MILLISECONDS);
                 if (data != null) handle(data);
                 long curr = clock.millis();
-                if (curr - cycle >= 50) {
+                if (curr - cycle >= 17) {
                     try {
                         sendData();
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
                     //empty queue
-                    if (numPlayer == 0 && ready!=0) break;
+                    if (numPlayer == 0 && ready != 0) break;
                     update();
                     cycle = curr;
                 }
@@ -65,9 +67,9 @@ public class TaskThread extends Thread {
 
     //cập nhật sau khi gửi xong
     private void update() {
-//        logger.info("Size" + IOQueue.size());
-        System.out.println("Size" + IOQueue.size());
-        //if (ready >= 3) IOQueue.clear();// chỉ xóa những dữ liệu không nhạy cảm
+//        logger.info("Size" + IQueue.size());
+        System.out.println("Size" + IQueue.size());
+        //if (ready >= 3) IQueue.clear();// chỉ xóa những dữ liệu không nhạy cảm
     }
 
     public void addPlayer(Socket socket, String name, String plane) {
@@ -104,7 +106,11 @@ public class TaskThread extends Thread {
                 //TODO
                 //add score player
             } else if (data[0].equals("SHOT")) {
-                transfer(message);
+                try {
+                    OQueue.put(message);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             } else if (data[0].equals("ENDGAME")) {
                 numPlayer--;
                 guards--;
@@ -132,35 +138,16 @@ public class TaskThread extends Thread {
     }
 
     //gửi dữ liệu đi
-    public void sendData() throws JsonProcessingException {
+    public void sendData() throws JsonProcessingException, InterruptedException {
         if (ready == 0 && guards == 3) {
-            transfer("START");
+            OQueue.put("START");
             ready = 1;
         }
-        List<String> jsonString = new ArrayList<>();
-        jsonString.add("STATE");
-        String[] a = new String[Constant.NUM_OF_PLAYER];
-        String[] b = new String[enermies.size()];
+        String jsonString = "STATE|";
         //execute
-        int i = 0;
-        for (Player player : players) a[i++] = mapper.writeValueAsString(player);
-        jsonString.add(String.join("|", a));//player
-        i = 0;
-        for (Enermy enermy : enermies) b[i++] = mapper.writeValueAsString(enermy);
+        for (Player player : players) jsonString += mapper.writeValueAsString(player)+"|";
+        for (Enermy enermy : enermies) jsonString += mapper.writeValueAsString(enermy)+"|";
         enermies.clear();
-        jsonString.add(String.join("|", b));//enermy
-        transfer(String.join("|", jsonString));
-    }
-
-    private void transfer(String message) {
-        for (Socket socket : sockets) {
-            try {
-                DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
-                outputStream.writeBytes(message + "\n");
-            } catch (IOException e) {
-                logger.warning("Send data error");
-                e.printStackTrace();
-            }
-        }
+        OQueue.put(jsonString);
     }
 }

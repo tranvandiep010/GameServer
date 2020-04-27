@@ -41,7 +41,7 @@ public class join extends Thread {
                     long cycle2 = clock.millis();
                     while (true) {
                         long curr = clock.millis();
-                        if (curr - cycle1 >= 8) {
+                        if (curr - cycle1 >= 14) {
                             String mess = "MOVE|" + id + "|" + id + "|" + id + "|tvd" + id;
                             outToServer.writeBytes(mess + '\n');
                             cycle1=clock.millis();

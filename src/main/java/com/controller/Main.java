@@ -47,18 +47,18 @@ public class Main {
 
     private static void setup() {
         Map<Integer, TaskThread> taskMap = new HashMap<>();
-        Map<Integer, IOThread> IOMap = new HashMap<>();
+        Map<Integer, ReceiveThread> IMap = new HashMap<>();
         Map<Integer, Integer> numPlayers = new HashMap<>();
         for (int level = 1; level <= Constant.NUM_OF_LEVEL; ++level) {
             for (int room = 1; room <= Constant.NUM_OF_ROOM; ++room) {
-                BlockingQueue<String> queue = new LinkedBlockingDeque<>(50);
-                taskMap.put(level * Constant.NUM_OF_ROOM + room, new TaskThread(queue));
-                IOMap.put(level * Constant.NUM_OF_ROOM + room, new IOThread(queue));
+                BlockingQueue<String> IQueue = new LinkedBlockingDeque<>(100);
+                taskMap.put(level * Constant.NUM_OF_ROOM + room, new TaskThread(IQueue));
+                IMap.put(level * Constant.NUM_OF_ROOM + room, new ReceiveThread(IQueue));
                 numPlayers.put(level * Constant.NUM_OF_ROOM + room, 0);
             }
         }
         LoginThread.taskMap = taskMap;
-        LoginThread.IOMap = IOMap;
+        LoginThread.IMap = IMap;
         LoginThread.numPlayers = numPlayers;
     }
 }
