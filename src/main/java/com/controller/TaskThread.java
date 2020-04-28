@@ -25,7 +25,7 @@ public class TaskThread extends Thread {
     ;
     List<Socket> sockets = new ArrayList<>();
     List<Enemy> enemies = new ArrayList<>();
-    List<Item> items = new ArrayList<>();
+    List<String> items = new ArrayList<>();
     List<Position> positionDefault = new ArrayList<>();
     Integer ready = 0;
     Integer numPlayer = 0;
@@ -88,10 +88,6 @@ public class TaskThread extends Thread {
 //        logger.info("Size" + IQueue.size());
 //        System.out.println("Size" + IQueue.size());
 //        if (ready >= 3) IQueue.clear();// chỉ xóa những dữ liệu không nhạy cảm
-        if (numEnermy >= 20) {
-            enemies.clear();
-            numEnermy = 0;
-        }
         if (ready != 0 && guards == 0) {
             ready = 0;
             players.clear();
@@ -109,7 +105,7 @@ public class TaskThread extends Thread {
         player.setPosition(positionDefault.get(numPlayer));
         player.setPlane(Integer.parseInt(plane));
         player.setHealth(100);
-        player.setShield(false);
+        player.setShield("");
         players.set(numPlayer, player);
         sockets.add(socket);
         numPlayer++;
@@ -131,54 +127,95 @@ public class TaskThread extends Thread {
                     }
             } else if (data[0].equals("READY")) {
                 guards++;
-            } else if (data[0].equals("ENEMY")) {
-                enemies.add(new Enemy(Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[4])));
-                //TODO
-                //add score player
             } else if (data[0].equals("ITEM")) {
                 if (data[1].equals("SHIELD")) {
-                    if (data[2].equals("ON")) {
+                    int index = items.indexOf(data[2]);
+                    if (index != -1) {
+                        items.remove(index);
                         String name = data[3];
                         for (Player player : players)
                             if (player.getName().equals(name)) {
-                                player.setShield(true);
+                                player.setShield(data[2]);
                                 break;
                             }
-                    } else {//OFF
+                        try {
+                            OQueue.put(message);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    //TODO
+                    //add score player
+                } else if (data[1].equals("HEALTH")) { //HEALTH
+                    int index = items.indexOf(data[2]);
+                    if (index != -1) {
+                        items.remove(index);
                         String name = data[3];
                         for (Player player : players)
                             if (player.getName().equals(name)) {
-                                player.setShield(false);
+                                player.setHealth(player.getHealth() + 50);
                                 break;
                             }
                     }
                     //TODO
                     //add score player
-                } else { //HEALTH
-                    String name = data[2];
-                    for (Player player : players)
-                        if (player.getName().equals(name)) {
-                            player.setHealth(player.getHealth() + 60);
-                            break;
+                } else { //GUN
+                    int index = items.indexOf(data[2]);
+                    if (index != -1) {
+                        items.remove(index);
+                        try {
+                            OQueue.put(message);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
-                    //TODO
-                    //add score player
+                    }
                 }
-            } else if (data[0].equals("SHOT")) {
+            } else if (data[0].equals("SHOT")) {//bắn đạn
+                try {
+                    OQueue.put(message);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else if (data[0].equals("SHOTED")) {
                 try {
                     OQueue.put(message);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             } else if (data[0].equals("DESTROY")) {
-                int idE = Integer.parseInt(data[1]), index = 0;
+                Long idE = Long.parseLong(data[1]);
+                int index = 0;
                 for (Enemy enemy : enemies) {
                     if (enemy.getId() == idE) {
                         break;
                     }
                     index++;
                 }
-                enemies.remove(index);
+                if (index < enemies.size()) {
+                    if (data.length == 3) {
+                        String name = data[2];
+                        for (Player player : players)
+                            if (player.getName().equals(name)) {
+                                player.setScore(player.getScore() + 10);
+                                break;
+                            }
+                        try {
+                            OQueue.put(message);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    enemies.remove(index);
+                }
+            } else if (data[0].equals("DESTROYITEM")) {
+                items.remove(data[1]);
+            } else if (data[0].equals("GETSHOTED")) {
+                String name = data[1];
+                for (Player player : players)
+                    if (player.getName().equals(name)) {
+                        player.setHealth(player.getHealth() - 20);
+                        break;
+                    }
             } else if (data[0].equals("ENDGAME")) {
                 numPlayer--;
                 guards--;
@@ -202,7 +239,11 @@ public class TaskThread extends Thread {
 
     //tạo mục tiêu
     public void createEnermy(int plane) {
-        Enemy enemy = new Enemy(numEnermy++, plane, 1);
+        Position position;
+        if (plane >= 1 && plane <= 5) {
+            position = new Position((float) (Math.random() * 101 - 50), 0, 240);
+        } else position = new Position((float) (Math.random() * 81 - 50), 0, 0);
+        Enemy enemy = new Enemy(numEnermy++, plane, position);
         synchronized (enemies) {
             enemies.add(enemy);
         }
@@ -218,6 +259,7 @@ public class TaskThread extends Thread {
         //execute
         for (Player player : players) jsonString += mapper.writeValueAsString(player) + "|";
         for (Enemy enemy : enemies) jsonString += mapper.writeValueAsString(enemy) + "|";
+        enemies.clear();
         OQueue.put(jsonString);
     }
 }

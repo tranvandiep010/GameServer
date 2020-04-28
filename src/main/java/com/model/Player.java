@@ -1,7 +1,5 @@
 package com.model;
 
-import java.net.Socket;
-
 public class Player {
     private String name;
     private boolean enable = false;
@@ -10,7 +8,7 @@ public class Player {
     private Position position;
     private int health;
     private int gun;
-    private boolean shield;
+    private String shield;
 
     public Player(String name, boolean enable) {
         this.name = name;
@@ -76,15 +74,15 @@ public class Player {
         this.gun = gun;
     }
 
-    public boolean getShield() {
+    public String getShield() {
         return shield;
     }
 
-    public void setShield(boolean shield) {
+    public void setShield(String shield) {
         this.shield = shield;
     }
 
-    public Player(String name, boolean enable, int score, int plane, Position position, int health, int gun, boolean shield) {
+    public Player(String name, boolean enable, int score, int plane, Position position, int health, int gun) {
         this.name = name;
         this.enable = enable;
         this.score = score;
@@ -92,6 +90,6 @@ public class Player {
         this.position = position;
         this.health = health;
         this.gun = gun;
-        this.shield = shield;
+        this.shield = "";
     }
 }

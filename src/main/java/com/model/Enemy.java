@@ -3,13 +3,12 @@ package com.model;
 public class Enemy {
     private long id;
     private int plane;
-    private int health;
-    private int enable;
+    private Position position;
 
-    public Enemy(long id, int plane, int enable) {
+    public Enemy(long id, int plane, Position position) {
         this.id = id;
         this.plane = plane;
-        this.enable = enable;
+        this.position = position;
     }
 
     public Enemy(long id) {
@@ -35,19 +34,11 @@ public class Enemy {
         this.plane = plane;
     }
 
-    public int getHealth() {
-        return health;
+    public Position getPosition() {
+        return position;
     }
 
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
-    public int getEnable() {
-        return enable;
-    }
-
-    public void setEnable(int enable) {
-        this.enable = enable;
+    public void setPosition(Position position) {
+        this.position = position;
     }
 }
