@@ -4,13 +4,13 @@ import java.net.Socket;
 
 public class Player {
     private String name;
-    private boolean enable=false;
+    private boolean enable = false;
     private int score;
     private int plane;
     private Position position;
     private int health;
     private int gun;
-    private int shield;
+    private boolean shield;
 
     public Player(String name, boolean enable) {
         this.name = name;
@@ -65,7 +65,7 @@ public class Player {
     }
 
     public void setHealth(int health) {
-        this.health = health;
+        this.health = Math.min(health, 100);
     }
 
     public int getGun() {
@@ -76,15 +76,15 @@ public class Player {
         this.gun = gun;
     }
 
-    public int getShield() {
+    public boolean getShield() {
         return shield;
     }
 
-    public void setShield(int shield) {
+    public void setShield(boolean shield) {
         this.shield = shield;
     }
 
-    public Player(String name, boolean enable, int score, int plane, Position position, int health, int gun, int shield) {
+    public Player(String name, boolean enable, int score, int plane, Position position, int health, int gun, boolean shield) {
         this.name = name;
         this.enable = enable;
         this.score = score;

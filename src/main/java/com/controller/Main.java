@@ -49,16 +49,19 @@ public class Main {
         Map<Integer, TaskThread> taskMap = new HashMap<>();
         Map<Integer, ReceiveThread> IMap = new HashMap<>();
         Map<Integer, Integer> numPlayers = new HashMap<>();
+        Map<Integer, Boolean> isRunning = new HashMap<>();
         for (int level = 1; level <= Constant.NUM_OF_LEVEL; ++level) {
             for (int room = 1; room <= Constant.NUM_OF_ROOM; ++room) {
                 BlockingQueue<String> IQueue = new LinkedBlockingDeque<>(100);
                 taskMap.put(level * Constant.NUM_OF_ROOM + room, new TaskThread(IQueue));
                 IMap.put(level * Constant.NUM_OF_ROOM + room, new ReceiveThread(IQueue));
                 numPlayers.put(level * Constant.NUM_OF_ROOM + room, 0);
+                isRunning.put(level * Constant.NUM_OF_ROOM + room, false);
             }
         }
         LoginThread.taskMap = taskMap;
         LoginThread.IMap = IMap;
         LoginThread.numPlayers = numPlayers;
+        LoginThread.isRunning = isRunning;
     }
 }

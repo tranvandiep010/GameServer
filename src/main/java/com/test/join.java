@@ -30,6 +30,10 @@ public class join extends Thread {
             BufferedReader inFromServer = new BufferedReader(
                     new InputStreamReader(clientSocket.getInputStream()));
             Thread.sleep(20);
+            sentence = "LOGIN|tvd" + id;
+            outToServer.writeBytes(sentence + '\n');
+            modifiedSentence = inFromServer.readLine();
+            System.out.println("Received from server login: " + modifiedSentence);
             sentence = "JOIN_ROOM|tvd" + id + "|9|1";
             outToServer.writeBytes(sentence + '\n');
             modifiedSentence = inFromServer.readLine();

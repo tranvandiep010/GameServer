@@ -1,20 +1,23 @@
 package com.model;
 
-public class Enermy {
+public class Enemy {
     private long id;
     private int type;
     private int plane;
-    private Position position;
     private int health;
     private int enable;
 
-    public Enermy(long id, int type, int enable) {
+    public Enemy(long id, int type, int enable) {
         this.id = id;
         this.type = type;
         this.enable = enable;
     }
 
-    public Enermy() {
+    public Enemy(long id) {
+        this.id = id;
+    }
+
+    public Enemy() {
     }
 
     public long getId() {
@@ -39,14 +42,6 @@ public class Enermy {
 
     public void setPlane(int plane) {
         this.plane = plane;
-    }
-
-    public Position getPosition() {
-        return position;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
     }
 
     public int getHealth() {

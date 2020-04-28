@@ -2,15 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c29479c5-a7f0-4fec-a744-d0721142d35a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/controller/SendThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/controller/IOThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controller/ReceiveThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/controller/LoginThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controller/LoginThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/controller/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controller/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/controller/ReceiveThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controller/ReceiveThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/controller/SendThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controller/SendThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/controller/TaskThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controller/TaskThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/model/Enermy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/model/Enemy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/model/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/test/Clients.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/Clients.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/test/join.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/test/join.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/controller/LoginThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controller/LoginThread.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/controller/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controller/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/controller/SendThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controller/SendThread.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/controller/TaskThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/controller/TaskThread.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -127,7 +131,10 @@
       <workItem from="1587918820833" duration="143000" />
       <workItem from="1587921328358" duration="772000" />
       <workItem from="1587954058269" duration="926000" />
-      <workItem from="1587959326909" duration="4666000" />
+      <workItem from="1587959326909" duration="7625000" />
+      <workItem from="1587987912678" duration="721000" />
+      <workItem from="1587991708823" duration="5691000" />
+      <workItem from="1588037187291" duration="8292000" />
     </task>
     <servers />
   </component>
@@ -139,10 +146,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="170" y="29" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1586060692170" />
-    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser" timestamp="1587976387522">
+    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser" timestamp="1588039115900">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1587976387522" />
+    <state x="488" y="48" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1588039115900" />
     <state x="412" y="148" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1586057235916">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -151,10 +158,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="313" y="53" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/0.0.1366.728@0.0.1366.728" timestamp="1587389831585" />
-    <state x="357" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1586006137411">
+    <state x="305" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1588039247886">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="357" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1366.728@0.0.1366.728" timestamp="1586006137411" />
+    <state x="305" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1366.728@0.0.1366.728" timestamp="1588039247886" />
     <state x="413" y="111" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1586871239622">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -167,22 +174,22 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="463" y="119" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1587459478299" />
-    <state width="1323" height="164" key="GridCell.Tab.0.bottom" timestamp="1587977952157">
+    <state width="1323" height="210" key="GridCell.Tab.0.bottom" timestamp="1588044493779">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="164" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1587977952157" />
-    <state width="1323" height="164" key="GridCell.Tab.0.center" timestamp="1587977952157">
+    <state width="1323" height="210" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1588044493779" />
+    <state width="1323" height="210" key="GridCell.Tab.0.center" timestamp="1588044493779">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="164" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1587977952157" />
-    <state width="1323" height="164" key="GridCell.Tab.0.left" timestamp="1587977952157">
+    <state width="1323" height="210" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1588044493779" />
+    <state width="1323" height="210" key="GridCell.Tab.0.left" timestamp="1588044493779">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="164" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1587977952157" />
-    <state width="1323" height="164" key="GridCell.Tab.0.right" timestamp="1587977952157">
+    <state width="1323" height="210" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1588044493779" />
+    <state width="1323" height="210" key="GridCell.Tab.0.right" timestamp="1588044493779">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="164" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1587977952157" />
+    <state width="1323" height="210" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1588044493779" />
     <state width="1323" height="223" key="GridCell.Tab.1.bottom" timestamp="1587835964074">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

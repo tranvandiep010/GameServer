@@ -1,20 +1,16 @@
 package com.controller;
 
-import com.model.Enermy;
-import com.model.Player;
-
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 public class SendThread extends Thread {
 
-    List<Socket> sockets = new ArrayList<>();
-    BlockingQueue<String> OQueue = null;
+    List<Socket> sockets;
+    BlockingQueue<String> OQueue;
 
     public SendThread(List<Socket> sockets, BlockingQueue<String> OQueue) {
         this.sockets = sockets;
@@ -23,7 +19,7 @@ public class SendThread extends Thread {
 
     @Override
     public void run() {
-        for(;;){
+        for (; ; ) {
             try {
                 String data = OQueue.take();
                 transfer(data);
@@ -39,8 +35,15 @@ public class SendThread extends Thread {
                 DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
                 outputStream.writeBytes(message + "\n");
             } catch (IOException e) {
-                //logger.warning("Send data error");
                 e.printStackTrace();
+                synchronized (sockets) {
+                    sockets.remove(socket);
+                }
+                try {
+                    socket.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         }
     }

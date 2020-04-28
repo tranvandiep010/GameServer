@@ -17,6 +17,7 @@ public class ReceiveThread extends Thread {
     List<Player> players = new ArrayList<>();
     BufferedReader[] readers = new BufferedReader[3];
     int ready = 0;
+    Boolean isStart = false;
 
     public ReceiveThread(BlockingQueue<String> IQueue) {
         this.IQueue = IQueue;
@@ -35,11 +36,6 @@ public class ReceiveThread extends Thread {
                     IQueue.removeAll(null);
                 }
             }
-//            try {
-//                Thread.sleep(3);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
         }
     }
 
@@ -55,6 +51,7 @@ public class ReceiveThread extends Thread {
         }
         readers[ready] = new BufferedReader(inputStreamReader);
         ready++;
+        if (ready >= 3) isStart = true;
     }
 
     public int getNumPlayers() {
