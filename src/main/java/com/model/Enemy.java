@@ -2,14 +2,13 @@ package com.model;
 
 public class Enemy {
     private long id;
-    private int type;
     private int plane;
     private int health;
     private int enable;
 
-    public Enemy(long id, int type, int enable) {
+    public Enemy(long id, int plane, int enable) {
         this.id = id;
-        this.type = type;
+        this.plane = plane;
         this.enable = enable;
     }
 
@@ -26,14 +25,6 @@ public class Enemy {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
     }
 
     public int getPlane() {

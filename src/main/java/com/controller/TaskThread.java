@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.time.Clock;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -19,7 +21,8 @@ public class TaskThread extends Thread {
 
     BlockingQueue<String> IQueue;
     BlockingQueue<String> OQueue = new LinkedBlockingDeque<>(50);
-    List<Player> players = new ArrayList<>();
+    List<Player> players = Arrays.asList(new Player[3]);
+    ;
     List<Socket> sockets = new ArrayList<>();
     List<Enemy> enemies = new ArrayList<>();
     List<Item> items = new ArrayList<>();
@@ -107,7 +110,7 @@ public class TaskThread extends Thread {
         player.setPlane(Integer.parseInt(plane));
         player.setHealth(100);
         player.setShield(false);
-        players.add(player);
+        players.set(numPlayer, player);
         sockets.add(socket);
         numPlayer++;
     }
@@ -198,8 +201,8 @@ public class TaskThread extends Thread {
     }
 
     //tạo mục tiêu
-    public void createEnermy(int type) {
-        Enemy enemy = new Enemy(numEnermy++, type, 1);
+    public void createEnermy(int plane) {
+        Enemy enemy = new Enemy(numEnermy++, plane, 1);
         synchronized (enemies) {
             enemies.add(enemy);
         }
