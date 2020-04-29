@@ -25,6 +25,7 @@ public class TaskThread extends Thread {
     ;
     List<Socket> sockets = new ArrayList<>();
     List<Enemy> enemies = new ArrayList<>();
+    List<Enemy> tmp = new ArrayList<>();
     List<String> items = new ArrayList<>();
     List<Position> positionDefault = new ArrayList<>();
     Integer ready = 0;
@@ -247,8 +248,8 @@ public class TaskThread extends Thread {
             position = new Position((float) (Math.random() * 101 - 50), 0, 240);
         } else position = new Position((float) (Math.random() * 81 - 50), 0, 0);
         Enemy enemy = new Enemy(numEnermy++, plane, position);
-        synchronized (enemies) {
-            enemies.add(enemy);
+        synchronized (tmp) {
+            tmp.add(enemy);
         }
     }
 
@@ -265,8 +266,11 @@ public class TaskThread extends Thread {
         String jsonString = "STATE|";
         //execute
         for (Player player : players) jsonString += mapper.writeValueAsString(player) + "|";
-        for (Enemy enemy : enemies) jsonString += mapper.writeValueAsString(enemy) + "|";
-        enemies.clear();
+        for (Enemy enemy : tmp) {
+            enemies.add(enemy);
+            jsonString += mapper.writeValueAsString(enemy) + "|";
+        }
+        tmp.clear();
         OQueue.put(jsonString);
     }
 }
