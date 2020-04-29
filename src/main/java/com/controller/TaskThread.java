@@ -161,7 +161,7 @@ public class TaskThread extends Thread {
                     //add score player
                 } else { //GUN
                     int index = items.indexOf(data[2]);
-                    System.out.println(index);
+                    System.out.println(message);
                     if (index != -1) {
                         items.remove(index);
                         try {
@@ -206,6 +206,7 @@ public class TaskThread extends Thread {
                             e.printStackTrace();
                         }
                         items.add(String.valueOf(enemies.get(index).getId()));
+                        System.out.println("ENEMY ID:" + enemies.get(index).getId()));
                         try {
                             OQueue.put(message);
                         } catch (InterruptedException e) {
@@ -254,6 +255,10 @@ public class TaskThread extends Thread {
         synchronized (enemies) {
             enemies.add(enemy);
         }
+    }
+
+    public void createItem(int id) {
+
     }
 
     //gửi dữ liệu đi
