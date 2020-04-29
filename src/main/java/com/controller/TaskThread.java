@@ -161,6 +161,7 @@ public class TaskThread extends Thread {
                     //add score player
                 } else { //GUN
                     int index = items.indexOf(data[2]);
+                    System.out.println(index);
                     if (index != -1) {
                         items.remove(index);
                         try {
@@ -205,6 +206,11 @@ public class TaskThread extends Thread {
                             e.printStackTrace();
                         }
                         items.add(String.valueOf(enemies.get(index).getId()));
+                        try {
+                            OQueue.put(message);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                     enemies.remove(index);
                 }
