@@ -161,7 +161,6 @@ public class TaskThread extends Thread {
                     //add score player
                 } else { //GUN
                     int index = items.indexOf(data[2]);
-                    System.out.println(message);
                     if (index != -1) {
                         items.remove(index);
                         try {
@@ -184,6 +183,7 @@ public class TaskThread extends Thread {
                     e.printStackTrace();
                 }
             } else if (data[0].equals("DESTROY")) {
+                System.out.println(message);
                 Long idE = Long.parseLong(data[1]);
                 int index = 0;
                 for (Enemy enemy : enemies) {
@@ -200,13 +200,8 @@ public class TaskThread extends Thread {
                                 player.setScore(player.getScore() + 10);
                                 break;
                             }
-                        try {
-                            OQueue.put(message);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
                         items.add(String.valueOf(enemies.get(index).getId()));
-                        System.out.println("ENEMY ID:" + enemies.get(index).getId()));
+                        System.out.println("ENEMY ID:" + enemies.get(index).getId());
                         try {
                             OQueue.put(message);
                         } catch (InterruptedException e) {
