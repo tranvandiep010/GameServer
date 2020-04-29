@@ -204,8 +204,7 @@ public class TaskThread extends Thread {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        //TODO
-                        //add item
+                        items.add(String.valueOf(enemies.get(index).getId()));
                     }
                     enemies.remove(index);
                 }
