@@ -201,8 +201,9 @@ public class TaskThread extends Thread {
                                 player.setScore(player.getScore() + 10);
                                 break;
                             }
+                        //TODO
+                        //add điều kiện
                         items.add(String.valueOf(enemies.get(index).getId()));
-                        System.out.println("ENEMY ID:" + enemies.get(index).getId());
                         try {
                             OQueue.put(message);
                         } catch (InterruptedException e) {
