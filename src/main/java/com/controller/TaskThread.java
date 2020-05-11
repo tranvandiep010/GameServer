@@ -108,7 +108,9 @@ public class TaskThread extends Thread {
         player.setHealth(100);
         player.setShield("");
         players.set(numPlayer, player);
-        sockets.add(socket);
+        synchronized (sockets) {
+            sockets.add(socket);
+        }
         numPlayer++;
     }
 
@@ -157,6 +159,11 @@ public class TaskThread extends Thread {
                                 player.setHealth(player.getHealth() + 50);
                                 break;
                             }
+                        try {
+                            OQueue.put(message);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                     //TODO
                     //add score player

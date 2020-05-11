@@ -30,19 +30,21 @@ public class SendThread extends Thread {
     }
 
     private void transfer(String message) {
-        for (Socket socket : sockets) {
-            try {
-                DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
-                outputStream.writeBytes(message + "\n");
-            } catch (IOException e) {
-                e.printStackTrace();
-                synchronized (sockets) {
-                    sockets.remove(socket);
-                }
+        synchronized (sockets) {
+            for (Socket socket : sockets) {
                 try {
-                    socket.close();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+                    DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
+                    outputStream.writeBytes(message + "\n");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    synchronized (sockets) {
+                        sockets.remove(socket);
+                    }
+                    try {
+                        socket.close();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
             }
         }

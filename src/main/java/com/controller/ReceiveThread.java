@@ -49,7 +49,9 @@ public class ReceiveThread extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        readers[ready] = new BufferedReader(inputStreamReader);
+        synchronized (readers) {
+            readers[ready] = new BufferedReader(inputStreamReader);
+        }
         ready++;
         if (ready >= 3) isStart = true;
     }
