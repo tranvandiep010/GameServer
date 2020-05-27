@@ -225,10 +225,22 @@ public class TaskThread extends Thread {
                         break;
                     }
             } else if (data[0].equals("QUITROOM")) {
+                System.out.println("QUITROOM");
                 removePlayer(data[1]);
+                try {
+                    OQueue.put(message);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             } else if (data[0].equals("QUITGAME")) {
+                System.out.println("QUITGAME");
                 removePlayer(data[1]);
                 LoginThread.removePlayer(data[1]);
+                try {
+                    OQueue.put(message);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -266,7 +278,7 @@ public class TaskThread extends Thread {
         numPlayer--;
         guards--;
         //remove player
-        int index = 0;
+        int index = -1;
         synchronized (players) {
             for (Player player : players) {
                 if (player.equals(name)) break;
