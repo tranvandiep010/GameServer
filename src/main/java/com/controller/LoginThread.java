@@ -51,7 +51,6 @@ public class LoginThread extends Thread {
                                             Thread.sleep(2);
                                             io.start();
                                         }
-                                        io.addPlayer(socket, data[1]);
                                         task.addPlayer(socket, data[1], data[3]);
                                         numPlayers.replace(idRoom, numPlayers.get(idRoom) + 1);
                                         outToClient.writeBytes("JOIN_ROOM|1\n");
@@ -73,6 +72,12 @@ public class LoginThread extends Thread {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static synchronized boolean removePlayer(String name){
+        synchronized (users) {
+            return users.remove(name);
         }
     }
 }

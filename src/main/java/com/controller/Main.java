@@ -1,6 +1,7 @@
 package com.controller;
 
 import com.model.Constant;
+import com.model.Player;
 
 import java.io.*;
 import java.net.*;
@@ -53,8 +54,10 @@ public class Main {
         for (int level = 1; level <= Constant.NUM_OF_LEVEL; ++level) {
             for (int room = 1; room <= Constant.NUM_OF_ROOM; ++room) {
                 BlockingQueue<String> IQueue = new LinkedBlockingDeque<>(100);
-                taskMap.put(level * Constant.NUM_OF_ROOM + room, new TaskThread(IQueue));
-                IMap.put(level * Constant.NUM_OF_ROOM + room, new ReceiveThread(IQueue));
+                List<Player> players = new ArrayList<>();
+                List<Socket> sockets = new ArrayList<>();
+                taskMap.put(level * Constant.NUM_OF_ROOM + room, new TaskThread(IQueue, sockets, players));
+                IMap.put(level * Constant.NUM_OF_ROOM + room, new ReceiveThread(IQueue, sockets, players));
                 numPlayers.put(level * Constant.NUM_OF_ROOM + room, 0);
                 isRunning.put(level * Constant.NUM_OF_ROOM + room, false);
             }

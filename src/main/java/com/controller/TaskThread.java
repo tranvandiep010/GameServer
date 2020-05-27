@@ -9,21 +9,17 @@ import java.io.IOException;
 import java.net.Socket;
 import java.time.Clock;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 public class TaskThread extends Thread {
 
     BlockingQueue<String> IQueue;
     BlockingQueue<String> OQueue = new LinkedBlockingDeque<>(50);
-    List<Player> players = Arrays.asList(new Player[3]);
-    ;
-    List<Socket> sockets = new ArrayList<>();
+    List<Player> players = null;
+    List<Socket> sockets = null;
     List<Enemy> enemies = new ArrayList<>();
     List<Enemy> tmp = new ArrayList<>();
     List<String> items = new ArrayList<>();
@@ -33,11 +29,12 @@ public class TaskThread extends Thread {
     Integer guards = 0;
     Integer numEnermy = 0;
     ObjectMapper mapper = new ObjectMapper();
-    Logger logger = Log.getLogger();
     Clock clock;
 
-    public TaskThread(BlockingQueue<String> IQueue) {
+    public TaskThread(BlockingQueue<String> IQueue, List<Socket> sockets, List<Player> players) {
         this.IQueue = IQueue;
+        this.sockets = sockets;
+        this.players = players;
         positionDefault.add(new Position(0, 0, 2.98f));
         positionDefault.add(new Position(-30, 0, 2.98f));
         positionDefault.add(new Position(30, 0, 2.98f));
@@ -107,7 +104,7 @@ public class TaskThread extends Thread {
         player.setPlane(Integer.parseInt(plane));
         player.setHealth(100);
         player.setShield("");
-        players.set(numPlayer, player);
+        players.add(player);
         synchronized (sockets) {
             sockets.add(socket);
         }
@@ -191,7 +188,6 @@ public class TaskThread extends Thread {
                     e.printStackTrace();
                 }
             } else if (data[0].equals("DESTROY")) {
-                System.out.println(message);
                 Long idE = Long.parseLong(data[1]);
                 int index = 0;
                 for (Enemy enemy : enemies) {
@@ -228,23 +224,11 @@ public class TaskThread extends Thread {
                         player.setHealth(player.getHealth() - 20);
                         break;
                     }
-            } else if (data[0].equals("ENDGAME")) {
-                numPlayer--;
-                guards--;
-                //remove player
-                int index = 0;
-                for (Player player : players) {
-                    if (player.equals(data[1])) break;
-                    index++;
-                }
-                players.remove(index);
-                //remove socket
-                try {
-                    sockets.get(index).close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                sockets.remove(index);
+            } else if (data[0].equals("QUITROOM")) {
+                removePlayer(data[1]);
+            } else if (data[0].equals("QUITGAME")) {
+                removePlayer(data[1]);
+                LoginThread.removePlayer(data[1]);
             }
         }
     }
@@ -261,11 +245,7 @@ public class TaskThread extends Thread {
         }
     }
 
-    public void createItem(int id) {
-
-    }
-
-    //gửi dữ liệu đi
+    //gửi dữ liệu đi // thêm vào hàng đợi
     public void sendData() throws JsonProcessingException, InterruptedException {
         if (ready == 0 && guards == 3) {
             OQueue.put("START");
@@ -280,5 +260,29 @@ public class TaskThread extends Thread {
         }
         tmp.clear();
         OQueue.put(jsonString);
+    }
+
+    private boolean removePlayer(String name) {
+        numPlayer--;
+        guards--;
+        //remove player
+        int index = 0;
+        synchronized (players) {
+            for (Player player : players) {
+                if (player.equals(name)) break;
+                index++;
+            }
+            players.remove(index);
+        }
+        //remove socket
+        synchronized (sockets) {
+            try {
+                sockets.get(index).close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            sockets.remove(index);
+        }
+        return true;
     }
 }
