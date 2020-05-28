@@ -225,16 +225,16 @@ public class TaskThread extends Thread {
                         break;
                     }
             } else if (data[0].equals("QUITROOM")) {
-                System.out.println("QUITROOM");
-                removePlayer(data[1]);
+                removePlayer(data[1], 0);
+                System.out.println("QUITROOM" + LoginThread.users.size());
                 try {
                     OQueue.put(message);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             } else if (data[0].equals("QUITGAME")) {
-                System.out.println("QUITGAME");
-                removePlayer(data[1]);
+                removePlayer(data[1], 1);
+                System.out.println("QUITGAME" + LoginThread.users.size());
                 LoginThread.removePlayer(data[1]);
                 try {
                     OQueue.put(message);
@@ -274,7 +274,7 @@ public class TaskThread extends Thread {
         OQueue.put(jsonString);
     }
 
-    private boolean removePlayer(String name) {
+    private boolean removePlayer(String name, int mode) {
         numPlayer--;
         guards--;
         //remove player
@@ -284,7 +284,9 @@ public class TaskThread extends Thread {
                 if (player.equals(name)) break;
                 index++;
             }
-            players.remove(index);
+            if (mode == 0)
+                players.set(index, null);
+            else players.remove(index);
         }
         //remove socket
         synchronized (sockets) {
