@@ -104,7 +104,7 @@ public class TaskThread extends Thread {
         player.setPlane(Integer.parseInt(plane));
         player.setHealth(100);
         player.setShield("");
-        players.add(player);
+        players.set(numPlayer, player);
         synchronized (sockets) {
             sockets.add(socket);
         }
@@ -236,11 +236,6 @@ public class TaskThread extends Thread {
                 removePlayer(data[1], 1);
                 System.out.println("QUITGAME" + LoginThread.users.size());
                 LoginThread.removePlayer(data[1]);
-                try {
-                    OQueue.put(message);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             }
         }
     }
@@ -284,9 +279,7 @@ public class TaskThread extends Thread {
                 if (player.equals(name)) break;
                 index++;
             }
-            if (mode == 0)
-                players.set(index, null);
-            else players.remove(index);
+            players.set(index, null);
         }
         //remove socket
         synchronized (sockets) {
