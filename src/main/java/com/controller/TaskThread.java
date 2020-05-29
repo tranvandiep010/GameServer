@@ -104,7 +104,7 @@ public class TaskThread extends Thread {
         player.setPlane(Integer.parseInt(plane));
         player.setHealth(100);
         player.setShield("");
-        players.set(numPlayer, player);
+        players.add(player);
         synchronized (sockets) {
             sockets.add(socket);
         }
@@ -226,12 +226,6 @@ public class TaskThread extends Thread {
                     }
             } else if (data[0].equals("QUITROOM")) {
                 removePlayer(data[1], 0);
-                System.out.println("QUITROOM" + LoginThread.users.size());
-                try {
-                    OQueue.put(message);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             } else if (data[0].equals("QUITGAME")) {
                 removePlayer(data[1], 1);
                 System.out.println("QUITGAME" + LoginThread.users.size());
@@ -261,6 +255,7 @@ public class TaskThread extends Thread {
         String jsonString = "STATE|";
         //execute
         for (Player player : players) jsonString += mapper.writeValueAsString(player) + "|";
+        if (players.size() < 3) for (int i = 0; i < 3 - players.size(); ++i) jsonString += "null|";
         for (Enemy enemy : tmp) {
             enemies.add(enemy);
             jsonString += mapper.writeValueAsString(enemy) + "|";
@@ -279,15 +274,17 @@ public class TaskThread extends Thread {
                 if (player.equals(name)) break;
                 index++;
             }
-            players.set(index, null);
+            players.remove(index);
         }
         //remove socket
         synchronized (sockets) {
-            try {
-                sockets.get(index).close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                sockets.get(index).close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+            LoginThread loginThread=new LoginThread(sockets.get(index));
+            loginThread.start();
             sockets.remove(index);
         }
         return true;

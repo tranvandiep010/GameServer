@@ -55,7 +55,7 @@ public class Main {
             for (int room = 1; room <= Constant.NUM_OF_ROOM; ++room) {
                 BlockingQueue<String> IQueue = new LinkedBlockingDeque<>(100);
                 List<Player> players = new ArrayList<>();
-                for (int i = 0; i < 3; ++i) players.add(null);
+//                for (int i = 0; i < 3; ++i) players.add(null);
                 List<Socket> sockets = new ArrayList<>();
                 taskMap.put(level * Constant.NUM_OF_ROOM + room, new TaskThread(IQueue, sockets, players));
                 IMap.put(level * Constant.NUM_OF_ROOM + room, new ReceiveThread(IQueue, sockets, players));
