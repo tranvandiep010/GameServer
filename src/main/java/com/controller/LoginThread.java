@@ -54,12 +54,16 @@ public class LoginThread extends Thread {
                                         task.addPlayer(socket, data[1], data[3]);
                                         numPlayers.replace(idRoom, numPlayers.get(idRoom) + 1);
                                         outToClient.writeBytes("JOIN_ROOM|1\n");
+                                        this.stop();
                                         return;
                                     } else {
                                         outToClient.writeBytes("JOIN_ROOM|0\n");
                                     }
                                 } else outToClient.writeBytes("JOIN_ROOM|0\n");
                             }
+                        } else if (data[0].equals("QUITGAME")) {
+                            users.remove(data[1]);
+                            this.stop();
                         }
                     } else {
                         outToClient.writeBytes("EXCEPTION\n");
@@ -75,7 +79,11 @@ public class LoginThread extends Thread {
         }
     }
 
-    public static synchronized boolean removePlayer(String name){
+    public static synchronized boolean removePlayer(Integer idRoom, String name) {
+        synchronized (numPlayers) {
+            Integer value = numPlayers.get(idRoom) - 1;
+            numPlayers.replace(idRoom, value > 0 ? value : 0);
+        }
         synchronized (users) {
             return users.remove(name);
         }

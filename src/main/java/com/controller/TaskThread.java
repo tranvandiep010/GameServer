@@ -2,7 +2,6 @@ package com.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.log.Log;
 import com.model.*;
 
 import java.io.IOException;
@@ -16,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 public class TaskThread extends Thread {
 
+    int id = 0;
     BlockingQueue<String> IQueue;
     BlockingQueue<String> OQueue = new LinkedBlockingDeque<>(50);
     List<Player> players = null;
@@ -31,10 +31,11 @@ public class TaskThread extends Thread {
     ObjectMapper mapper = new ObjectMapper();
     Clock clock;
 
-    public TaskThread(BlockingQueue<String> IQueue, List<Socket> sockets, List<Player> players) {
+    public TaskThread(BlockingQueue<String> IQueue, List<Socket> sockets, List<Player> players, int id) {
         this.IQueue = IQueue;
         this.sockets = sockets;
         this.players = players;
+        this.id = id;
         positionDefault.add(new Position(0, 0, 2.98f));
         positionDefault.add(new Position(-30, 0, 2.98f));
         positionDefault.add(new Position(30, 0, 2.98f));
@@ -229,7 +230,7 @@ public class TaskThread extends Thread {
             } else if (data[0].equals("QUITGAME")) {
                 removePlayer(data[1], 1);
                 System.out.println("QUITGAME" + LoginThread.users.size());
-                LoginThread.removePlayer(data[1]);
+                LoginThread.removePlayer(id, data[1]);
             }
         }
     }
@@ -278,13 +279,16 @@ public class TaskThread extends Thread {
         }
         //remove socket
         synchronized (sockets) {
-//            try {
-//                sockets.get(index).close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-            LoginThread loginThread=new LoginThread(sockets.get(index));
-            loginThread.start();
+            if (mode == 0) {
+                LoginThread loginThread = new LoginThread(sockets.get(index));
+                loginThread.start();
+            } else if (mode == 1) {
+                try {
+                    sockets.get(index).close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             sockets.remove(index);
         }
         return true;
