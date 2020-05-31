@@ -20,6 +20,7 @@ public class TaskThread extends Thread {
     BlockingQueue<String> OQueue = new LinkedBlockingDeque<>(50);
     List<Player> players = null;
     List<Socket> sockets = null;
+    List<Socket> sockets2 = new ArrayList<>();
     List<Enemy> enemies = new ArrayList<>();
     List<Enemy> tmp = new ArrayList<>();
     List<String> items = new ArrayList<>();
@@ -40,7 +41,7 @@ public class TaskThread extends Thread {
         positionDefault.add(new Position(-30, 0, 2.98f));
         positionDefault.add(new Position(30, 0, 2.98f));
         clock = Clock.systemDefaultZone();
-        new SendThread(sockets, OQueue).start();
+        new SendThread(sockets2, OQueue).start();
     }
 
     @Override
@@ -53,7 +54,7 @@ public class TaskThread extends Thread {
                 String data = IQueue.poll(1200, TimeUnit.MICROSECONDS);
                 if (data != null) handle(data);
                 long curr = clock.millis();
-                if (curr - cycle >= 18) {
+                if (curr - cycle >= 30) {
                     try {
                         sendData();
                     } catch (JsonProcessingException e) {
@@ -108,6 +109,9 @@ public class TaskThread extends Thread {
         players.add(player);
         synchronized (sockets) {
             sockets.add(socket);
+        }
+        synchronized (sockets2){
+            sockets2.add(socket);
         }
         numPlayer++;
     }
@@ -278,6 +282,9 @@ public class TaskThread extends Thread {
             players.remove(index);
         }
         //remove socket
+        synchronized (sockets2) {
+            sockets2.remove(index);
+        }
         synchronized (sockets) {
             if (mode == 0) {
                 LoginThread loginThread = new LoginThread(sockets.get(index));
