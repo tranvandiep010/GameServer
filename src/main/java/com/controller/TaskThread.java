@@ -10,18 +10,17 @@ import java.net.Socket;
 import java.time.Clock;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 public class TaskThread extends Thread {
 
+    private int id;
     BlockingQueue<String> IQueue;
     BlockingQueue<String> OQueue = new LinkedBlockingDeque<>(50);
-    List<Player> players = Arrays.asList(new Player[3]);
+    List<Player> players = new ArrayList<>();
     ;
     List<Socket> sockets = new ArrayList<>();
     List<Enemy> enemies = new ArrayList<>();
@@ -33,11 +32,13 @@ public class TaskThread extends Thread {
     Integer guards = 0;
     Integer numEnermy = 0;
     ObjectMapper mapper = new ObjectMapper();
-    Logger logger = Log.getLogger();
     Clock clock;
+    ReceiveThread receiveThread;
 
-    public TaskThread(BlockingQueue<String> IQueue) {
+    public TaskThread(int id, BlockingQueue<String> IQueue, ReceiveThread receiveThread) {
+        this.id = id;
         this.IQueue = IQueue;
+        this.receiveThread = receiveThread;
         positionDefault.add(new Position(0, 0, 2.98f));
         positionDefault.add(new Position(-30, 0, 2.98f));
         positionDefault.add(new Position(30, 0, 2.98f));
@@ -55,7 +56,7 @@ public class TaskThread extends Thread {
                 String data = IQueue.poll(1200, TimeUnit.MICROSECONDS);
                 if (data != null) handle(data);
                 long curr = clock.millis();
-                if (curr - cycle >= 18) {
+                if (curr - cycle >= 19) {
                     try {
                         sendData();
                     } catch (JsonProcessingException e) {
@@ -89,7 +90,7 @@ public class TaskThread extends Thread {
 //        logger.info("Size" + IQueue.size());
 //        System.out.println("Size" + IQueue.size());
 //        if (ready >= 3) IQueue.clear();// chỉ xóa những dữ liệu không nhạy cảm
-        if (ready != 0 && guards == 0) {
+        if ((ready != 0 && guards == 0) || numPlayer <= 0) {
             ready = 0;
             players.clear();
             enemies.clear();
@@ -107,7 +108,7 @@ public class TaskThread extends Thread {
         player.setPlane(Integer.parseInt(plane));
         player.setHealth(100);
         player.setShield("");
-        players.set(numPlayer, player);
+        players.add(player);
         synchronized (sockets) {
             sockets.add(socket);
         }
@@ -228,23 +229,12 @@ public class TaskThread extends Thread {
                         player.setHealth(player.getHealth() - 20);
                         break;
                     }
-            } else if (data[0].equals("ENDGAME")) {
-                numPlayer--;
-                guards--;
-                //remove player
-                int index = 0;
-                for (Player player : players) {
-                    if (player.equals(data[1])) break;
-                    index++;
-                }
-                players.remove(index);
-                //remove socket
-                try {
-                    sockets.get(index).close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                sockets.remove(index);
+            } else if (data[0].equals("QUITROOM")) {
+                removePlayer(data[1], 0);
+            } else if (data[0].equals("QUITGAME")) {
+                removePlayer(data[1], 1);
+                System.out.println("QUITGAME" + LoginThread.users.size());
+                LoginThread.removePlayer(data[1]);
             }
         }
     }
@@ -261,10 +251,6 @@ public class TaskThread extends Thread {
         }
     }
 
-    public void createItem(int id) {
-
-    }
-
     //gửi dữ liệu đi
     public void sendData() throws JsonProcessingException, InterruptedException {
         if (ready == 0 && guards == 3) {
@@ -274,11 +260,47 @@ public class TaskThread extends Thread {
         String jsonString = "STATE|";
         //execute
         for (Player player : players) jsonString += mapper.writeValueAsString(player) + "|";
+        if (players.size() < 3) for (int i = 0; i < 3 - players.size(); ++i) jsonString += "null|";
         for (Enemy enemy : tmp) {
             enemies.add(enemy);
             jsonString += mapper.writeValueAsString(enemy) + "|";
         }
         tmp.clear();
         OQueue.put(jsonString);
+    }
+
+    private boolean removePlayer(String name, int mode) {
+        numPlayer--;
+        guards--;
+        //remove player
+        int index = 0;
+        synchronized (players) {
+            for (Player player : players) {
+                if (player.getName().equals(name)) break;
+                index++;
+            }
+            if (index < 3) {
+                players.remove(index);
+            }
+        }
+        if (index < 3) {
+            //remove socket
+            receiveThread.removePlayer(index);
+            synchronized (sockets) {
+                if (mode == 0) {
+                    LoginThread loginThread = new LoginThread(sockets.get(index));
+                    loginThread.start();
+                } else if (mode == 1) {
+                    try {
+                        sockets.get(index).close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                sockets.remove(index);
+            }
+        }
+        LoginThread.decNumPlayerOfRoom(id);
+        return true;
     }
 }

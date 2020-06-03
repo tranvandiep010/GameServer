@@ -15,7 +15,7 @@ public class ReceiveThread extends Thread {
 
     BlockingQueue<String> IQueue = null;
     List<Player> players = new ArrayList<>();
-    BufferedReader[] readers = new BufferedReader[3];
+    List<BufferedReader> readers = new ArrayList<>();
     int ready = 0;
     Boolean isStart = false;
 
@@ -26,14 +26,16 @@ public class ReceiveThread extends Thread {
     @Override
     public void run() {
         for (; ; ) {
-            for (int i = 0; i < ready; ++i) {
-                try {
-                    if (readers[i].ready()) {
-                        IQueue.put(readers[i].readLine());
+            synchronized (readers) {
+                for (BufferedReader reader : readers) {
+                    try {
+                        if (reader.ready()) {
+                            IQueue.put(reader.readLine());
+                        }
+                    } catch (IOException | InterruptedException e) {
+                        e.printStackTrace();
+                        IQueue.removeAll(null);
                     }
-                } catch (IOException | InterruptedException e) {
-                    e.printStackTrace();
-                    IQueue.removeAll(null);
                 }
             }
         }
@@ -42,7 +44,6 @@ public class ReceiveThread extends Thread {
     public synchronized void addPlayer(Socket socket, String name) {
         Player player = new Player(name, true);
         players.add(player);
-        System.out.println(name);
         InputStreamReader inputStreamReader = null;
         try {
             inputStreamReader = new InputStreamReader(socket.getInputStream());
@@ -50,13 +51,16 @@ public class ReceiveThread extends Thread {
             e.printStackTrace();
         }
         synchronized (readers) {
-            readers[ready] = new BufferedReader(inputStreamReader);
+            readers.add(new BufferedReader(inputStreamReader));
         }
         ready++;
         if (ready >= 3) isStart = true;
     }
 
-    public int getNumPlayers() {
-        return players.size();
+    public void removePlayer(int index) {
+        players.remove(index);
+        synchronized (readers) {
+            readers.remove(index);
+        }
     }
 }
