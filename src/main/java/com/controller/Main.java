@@ -54,10 +54,9 @@ public class Main {
         for (int level = 1; level <= Constant.NUM_OF_LEVEL; ++level) {
             for (int room = 1; room <= Constant.NUM_OF_ROOM; ++room) {
                 BlockingQueue<String> IQueue = new LinkedBlockingDeque<>(100);
-                List<Player> players = new ArrayList<>();
-                List<Socket> sockets = new ArrayList<>();
-                taskMap.put(level * Constant.NUM_OF_ROOM + room, new TaskThread(IQueue, sockets, players, level * Constant.NUM_OF_ROOM + room));
-                IMap.put(level * Constant.NUM_OF_ROOM + room, new ReceiveThread(IQueue, sockets, players));
+                ReceiveThread receiveThread = new ReceiveThread(IQueue);
+                taskMap.put(level * Constant.NUM_OF_ROOM + room, new TaskThread(level * Constant.NUM_OF_ROOM + room, IQueue, receiveThread));
+                IMap.put(level * Constant.NUM_OF_ROOM + room, receiveThread);
                 numPlayers.put(level * Constant.NUM_OF_ROOM + room, 0);
                 isRunning.put(level * Constant.NUM_OF_ROOM + room, false);
             }

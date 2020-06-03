@@ -14,25 +14,22 @@ import java.util.concurrent.BlockingQueue;
 public class ReceiveThread extends Thread {
 
     BlockingQueue<String> IQueue = null;
-    List<Player> players = null;
-    List<Socket> sockets = null;
+    List<Player> players = new ArrayList<>();
+    List<BufferedReader> readers = new ArrayList<>();
     int ready = 0;
     Boolean isStart = false;
 
-    public ReceiveThread(BlockingQueue<String> IQueue, List<Socket> sockets, List<Player> players) {
+    public ReceiveThread(BlockingQueue<String> IQueue) {
         this.IQueue = IQueue;
-        this.sockets = sockets;
         this.players = players;
     }
 
     @Override
     public void run() {
         for (; ; ) {
-            synchronized (sockets) {
-                for (Socket socket : sockets) {
+            synchronized (readers) {
+                for (BufferedReader reader : readers) {
                     try {
-                        InputStreamReader inputStreamReader = new InputStreamReader(socket.getInputStream());
-                        BufferedReader reader = new BufferedReader(inputStreamReader);
                         if (reader.ready()) {
                             IQueue.put(reader.readLine());
                         }
@@ -45,15 +42,26 @@ public class ReceiveThread extends Thread {
         }
     }
 
-//    public synchronized void addPlayer(Socket socket, String name) {
-//        Player player = new Player(name, true);
-//        players.add(player);
-//        System.out.println(name);
-//        ready++;
-//        if (ready >= 3) isStart = true;
-//    }
+    public synchronized void addPlayer(Socket socket, String name) {
+        Player player = new Player(name, true);
+        players.add(player);
+        InputStreamReader inputStreamReader = null;
+        try {
+            inputStreamReader = new InputStreamReader(socket.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        synchronized (readers) {
+            readers.add(new BufferedReader(inputStreamReader));
+        }
+        ready++;
+        if (ready >= 3) isStart = true;
+    }
 
-    public int getNumPlayers() {
-        return players.size();
+    public void removePlayer(int index) {
+        players.remove(index);
+        synchronized (readers) {
+            readers.remove(index);
+        }
     }
 }
