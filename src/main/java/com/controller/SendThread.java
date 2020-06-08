@@ -35,15 +35,16 @@ public class SendThread extends Thread {
                     DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
                     outputStream.writeBytes(message + "\n");
                 } catch (IOException e) {
-                    e.printStackTrace();
-                    synchronized (sockets) {
-                        sockets.remove(socket);
-                    }
-                    try {
-                        socket.close();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
+//                    System.out.println(sockets.size());
+//                    e.printStackTrace();
+//                    synchronized (sockets) {
+//                        sockets.remove(socket);
+//                    }
+//                    try {
+//                        socket.close();
+//                    } catch (IOException ex) {
+//                        ex.printStackTrace();
+//                    }
                 }
             }
         }

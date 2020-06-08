@@ -5,6 +5,7 @@ import com.model.Room;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.*;
 
 public class LoginThread extends Thread {
@@ -50,7 +51,7 @@ public class LoginThread extends Thread {
                                         task.addPlayer(socket, data[1], data[3]);
                                         if (!io.isAlive()) {
                                             task.start();
-                                            Thread.sleep(2);
+//                                            Thread.sleep(2);
                                             io.start();
                                         }
                                         numPlayers.replace(idRoom, numPlayers.get(idRoom) + 1);
@@ -58,7 +59,6 @@ public class LoginThread extends Thread {
                                         break;
                                     } else {
                                         outToClient.writeBytes("JOIN_ROOM|0\n");
-                                        System.out.println(numPlayers.get(idRoom));
                                     }
                                 } else {
                                     outToClient.writeBytes("JOIN_ROOM|0\n");
@@ -75,10 +75,14 @@ public class LoginThread extends Thread {
                     }
                 } else {
                     outToClient.writeBytes("EXCEPTION|0\n");
-                    socket.close();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                try {
+                    socket.setKeepAlive(false);
+                } catch (SocketException socketException) {
+                    socketException.printStackTrace();
+                }
                 break;
             }
         }

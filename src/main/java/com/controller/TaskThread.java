@@ -31,6 +31,7 @@ public class TaskThread extends Thread {
     ObjectMapper mapper = new ObjectMapper();
     Clock clock;
     ReceiveThread receiveThread;
+    SendThread sendThread;
 
     public TaskThread(int id, BlockingQueue<String> IQueue, ReceiveThread receiveThread) {
         this.id = id;
@@ -40,7 +41,8 @@ public class TaskThread extends Thread {
         positionDefault.add(new Position(-30, 0, 2.98f));
         positionDefault.add(new Position(30, 0, 2.98f));
         clock = Clock.systemDefaultZone();
-        new SendThread(sockets, OQueue).start();
+        sendThread = new SendThread(sockets, OQueue);
+        sendThread.start();
     }
 
     @Override
@@ -53,7 +55,7 @@ public class TaskThread extends Thread {
                 String data = IQueue.poll(1200, TimeUnit.MICROSECONDS);
                 if (data != null) handle(data);
                 long curr = clock.millis();
-                if (curr - cycle >= 19) {
+                if (curr - cycle >= 18) {
                     try {
                         sendData();
                     } catch (JsonProcessingException e) {
@@ -61,7 +63,16 @@ public class TaskThread extends Thread {
                     }
                     //empty queue
                     if (numPlayer == 0 && ready != 0) break;
-                    update();
+                    if ((ready != 0 && guards == 0) || numPlayer <= 0) {
+                        ready = 0;
+                        enemies.clear();
+                        items.clear();
+                        IQueue.clear();
+                        OQueue.clear();
+                        sockets.clear();
+                        LoginThread.isRunning.replace(id, false);
+                        break;
+                    }
                     cycle = curr;
                 }
                 if (curr - cycleEnemy >= 3995) {
@@ -87,16 +98,16 @@ public class TaskThread extends Thread {
 //        logger.info("Size" + IQueue.size());
 //        System.out.println("Size" + IQueue.size());
 //        if (ready >= 3) IQueue.clear();// chỉ xóa những dữ liệu không nhạy cảm
-        if ((ready != 0 && guards == 0) || numPlayer <= 0) {
-            ready = 0;
-            players.clear();
-            enemies.clear();
-            items.clear();
-            IQueue.clear();
-            OQueue.clear();
-            sockets.clear();
-            this.stop();
-        }
+//        if ((ready != 0 && guards == 0) || numPlayer <= 0) {
+//            ready = 0;
+//            players.clear();
+//            enemies.clear();
+//            items.clear();
+//            IQueue.clear();
+//            OQueue.clear();
+//            sockets.clear();
+//            this.stop();
+//        }
     }
 
     public void addPlayer(Socket socket, String name, String plane) {
@@ -229,7 +240,6 @@ public class TaskThread extends Thread {
                 removePlayer(data[1], 0);
             } else if (data[0].equals("QUITGAME")) {
                 removePlayer(data[1], 1);
-                System.out.println("QUITGAME" + LoginThread.users.size());
                 LoginThread.removePlayer(data[1]);
             }
         }
@@ -266,8 +276,8 @@ public class TaskThread extends Thread {
     }
 
     private boolean removePlayer(String name, int mode) {
-        numPlayer--;
-        guards--;
+        numPlayer = numPlayer > 0 ? --numPlayer : 0;
+        guards = guards > 0 ? --guards : 0;
         //remove player
         int index = 0;
         synchronized (players) {
