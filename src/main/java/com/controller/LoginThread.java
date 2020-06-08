@@ -49,11 +49,10 @@ public class LoginThread extends Thread {
                                     if (numPlayers.get(idRoom) < Room.MAX_PEOPLE && !isRunning.get(idRoom)) {
                                         io.addPlayer(socket, data[1]);
                                         task.addPlayer(socket, data[1], data[3]);
-                                        if (!io.isAlive()) {
-                                            task.start();
-//                                            Thread.sleep(2);
-                                            io.start();
-                                        }
+                                        if (!io.isAlive()) io.start();
+                                        if (!task.isAlive()) task.start();
+//                                        if (io.getState() == State.WAITING) io.notify();
+//                                        if (task.getState() == State.WAITING) task.notify();
                                         numPlayers.replace(idRoom, numPlayers.get(idRoom) + 1);
                                         outToClient.writeBytes("JOIN_ROOM|1\n");
                                         break;
@@ -93,10 +92,11 @@ public class LoginThread extends Thread {
             return users.remove(name);
         }
     }
-     public static synchronized void decNumPlayerOfRoom(Integer idRoom){
-         synchronized (numPlayers) {
-             Integer value = numPlayers.get(idRoom) - 1;
-             numPlayers.replace(idRoom, value > 0 ? value : 0);
-         }
-     }
+
+    public static synchronized void decNumPlayerOfRoom(Integer idRoom) {
+        synchronized (numPlayers) {
+            Integer value = numPlayers.get(idRoom) - 1;
+            numPlayers.replace(idRoom, value > 0 ? value : 0);
+        }
+    }
 }

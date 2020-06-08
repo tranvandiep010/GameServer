@@ -71,7 +71,6 @@ public class TaskThread extends Thread {
                         OQueue.clear();
                         sockets.clear();
                         LoginThread.isRunning.replace(id, false);
-                        break;
                     }
                     cycle = curr;
                 }
