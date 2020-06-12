@@ -35,8 +35,6 @@ public class ReceiveThread extends Thread {
                         }
                     } catch (IOException | InterruptedException e) {
                         e.printStackTrace();
-                        if (IQueue != null)
-                            IQueue.removeAll(null);
                     }
                 }
             }

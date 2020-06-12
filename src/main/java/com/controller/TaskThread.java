@@ -29,7 +29,7 @@ public class TaskThread extends Thread {
     Integer guards = 0;
     Integer numEnermy = 0;
     ObjectMapper mapper = new ObjectMapper();
-    Clock clock;
+    private Clock clock;
     ReceiveThread receiveThread;
     SendThread sendThread;
 
@@ -62,7 +62,6 @@ public class TaskThread extends Thread {
                         e.printStackTrace();
                     }
                     //empty queue
-//                    if (numPlayer == 0 && ready != 0) break;
                     if (ready != 0 && (guards <= 0 || numPlayer <= 0)) {
                         ready = 0;
                         enemies.clear();
@@ -70,7 +69,9 @@ public class TaskThread extends Thread {
                         IQueue.clear();
                         OQueue.clear();
                         sockets.clear();
-                        LoginThread.isRunning.replace(id, false);
+                        synchronized (LoginThread.isRunning) {
+                            LoginThread.isRunning.replace(id, false);
+                        }
                     }
                     cycle = curr;
                 }
@@ -90,23 +91,6 @@ public class TaskThread extends Thread {
                 e.printStackTrace();
             }
         }
-    }
-
-    //cập nhật sau khi gửi xong
-    private void update() {
-//        logger.info("Size" + IQueue.size());
-//        System.out.println("Size" + IQueue.size());
-//        if (ready >= 3) IQueue.clear();// chỉ xóa những dữ liệu không nhạy cảm
-//        if ((ready != 0 && guards == 0) || numPlayer <= 0) {
-//            ready = 0;
-//            players.clear();
-//            enemies.clear();
-//            items.clear();
-//            IQueue.clear();
-//            OQueue.clear();
-//            sockets.clear();
-//            this.stop();
-//        }
     }
 
     public void addPlayer(Socket socket, String name, String plane) {
@@ -263,7 +247,9 @@ public class TaskThread extends Thread {
         if (ready == 0 && guards == 3) {
             OQueue.put("START");
             ready = 1;
-            LoginThread.isRunning.replace(id, true);
+            synchronized (LoginThread.isRunning) {
+                LoginThread.isRunning.replace(id, true);
+            }
         }
         String jsonString = "STATE|";
         //execute
@@ -308,7 +294,7 @@ public class TaskThread extends Thread {
                 sockets.remove(index);
             }
         }
-//        LoginThread.decNumPlayerOfRoom(id);
+
         synchronized (LoginThread.numPlayers) {
             Integer value = LoginThread.numPlayers.get(id) - 1;
             LoginThread.numPlayers.replace(id, value > 0 ? value : 0);
