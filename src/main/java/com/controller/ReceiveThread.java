@@ -1,7 +1,6 @@
 package com.controller;
 
 import com.model.Player;
-import com.model.Position;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,7 +20,6 @@ public class ReceiveThread extends Thread {
 
     public ReceiveThread(BlockingQueue<String> IQueue) {
         this.IQueue = IQueue;
-        this.players = players;
     }
 
     @Override

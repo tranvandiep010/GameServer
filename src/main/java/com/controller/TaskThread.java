@@ -139,8 +139,6 @@ public class TaskThread extends Thread {
                             e.printStackTrace();
                         }
                     }
-                    //TODO
-                    //add score player
                 } else if (data[1].equals("HEALTH")) { //HEALTH
                     int index = items.indexOf(data[2]);
                     if (index != -1) {

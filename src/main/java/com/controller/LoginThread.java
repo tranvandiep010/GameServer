@@ -11,7 +11,7 @@ import java.util.*;
 public class LoginThread extends Thread {
 
     Socket socket;
-    String requestMessageLine = null;
+    private String requestMessageLine = null;
     protected static List<String> users = new ArrayList<>();
     protected static Map<Integer, TaskThread> taskMap = new HashMap<>();
     protected static Map<Integer, ReceiveThread> IMap = new HashMap<>();
@@ -86,11 +86,4 @@ public class LoginThread extends Thread {
             }
         }
     }
-
-//     public static synchronized void decNumPlayerOfRoom(Integer idRoom){
-//         synchronized (numPlayers) {
-//             Integer value = numPlayers.get(idRoom) - 1;
-//             numPlayers.replace(idRoom, value > 0 ? value : 0);
-//         }
-//     }
 }
