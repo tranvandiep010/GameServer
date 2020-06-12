@@ -62,8 +62,8 @@ public class TaskThread extends Thread {
                         e.printStackTrace();
                     }
                     //empty queue
-                    if (numPlayer == 0 && ready != 0) break;
-                    if ((ready != 0 && guards == 0) || numPlayer <= 0) {
+//                    if (numPlayer == 0 && ready != 0) break;
+                    if (ready != 0 && (guards <= 0 || numPlayer <= 0)) {
                         ready = 0;
                         enemies.clear();
                         items.clear();
@@ -239,7 +239,9 @@ public class TaskThread extends Thread {
                 removePlayer(data[1], 0);
             } else if (data[0].equals("QUITGAME")) {
                 removePlayer(data[1], 1);
-                LoginThread.removePlayer(data[1]);
+                synchronized (LoginThread.users) {
+                    LoginThread.users.remove(data[1]);
+                }
             }
         }
     }
@@ -261,6 +263,7 @@ public class TaskThread extends Thread {
         if (ready == 0 && guards == 3) {
             OQueue.put("START");
             ready = 1;
+            LoginThread.isRunning.replace(id, true);
         }
         String jsonString = "STATE|";
         //execute
@@ -305,7 +308,11 @@ public class TaskThread extends Thread {
                 sockets.remove(index);
             }
         }
-        LoginThread.decNumPlayerOfRoom(id);
+//        LoginThread.decNumPlayerOfRoom(id);
+        synchronized (LoginThread.numPlayers) {
+            Integer value = LoginThread.numPlayers.get(id) - 1;
+            LoginThread.numPlayers.replace(id, value > 0 ? value : 0);
+        }
         return true;
     }
 }
